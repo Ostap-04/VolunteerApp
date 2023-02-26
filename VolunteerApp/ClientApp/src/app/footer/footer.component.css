@@ -1,0 +1,26 @@
+.footer {
+  background-color: #6f6f6f;
+  padding: 48px 0;
+}
+.footer__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer__logo img {
+  max-width: 12.5rem;
+}
+.contact-btn {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: #fff;
+  border: 3px solid #7cb0a2;
+  padding: 15px 25px;
+  border-radius: 20px;
+  transition: all 0.3s ease 0s;
+}
+@media (any-hover: hover) {
+  .contact-btn:hover {
+    background-color: #4d6f66;
+  }
+}
