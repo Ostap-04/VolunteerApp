@@ -89,6 +89,9 @@
   .page-info__container {
     gap: 50px;
   }
+  .page-info {
+    padding: 90px 0;
+  }
 }
 
 @media (max-width: 467.98px) {
@@ -97,5 +100,8 @@
   }
   .item-info__content {
     padding: 1.5rem;
+  }
+  .page-info {
+    padding: 50px 0;
   }
 }
