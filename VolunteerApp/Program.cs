@@ -1,27 +1,39 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore;
+using System;
+using System.Data.SqlClient;
+using VolunteerApp.Data;
 
-// Add services to the container.
-
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+namespace VolunteerApp
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    class Program
+    {
+        //static void Main(string[] args)
+        //{
+            //string connectionString = "Data Source=myServerAddress;Initial Catalog=myDataBase;User ID=myUsername;Password=myPassword;";
+            //string connectionString = "Data Source=DESKTOP-JFOOLKD\\SQLEXPRESS;Initial Catalog=VolunteerApp;Integrated Security=True";
+
+            //string sql = "SELECT * FROM Categories";
+            //using (SqlConnection connection = new SqlConnection(connectionString))
+            //{
+            //    SqlCommand command = new SqlCommand(sql, connection);
+            //    connection.Open();
+            //    SqlDataReader reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        Console.WriteLine("{0}\t{1}", reader.GetInt32(0), reader.GetString(1));
+            //    }
+            //    reader.Close();
+            //}
+            //VolunteerContext myDb = new VolunteerContext();
+        //}
+        public static void Main(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+    }
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html"); ;
-
-app.Run();
