@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using VolunteerApp.Data;
+using DataAccess.Data;
 
 namespace VolunteerApp
 {
@@ -15,7 +15,7 @@ namespace VolunteerApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<VolunteerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<VolunteerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VolunteerDbConnectionString")));
 
             services.AddControllersWithViews();
         }
