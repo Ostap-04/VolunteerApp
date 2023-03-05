@@ -3,15 +3,15 @@
   align-items: center;
   color: #fff;
   background-color: #4d6f66;
-  padding: 15px 20px;
-  height: 52px;
+  padding: 0.83em 1.1em;
+  min-height: 52px;
   border-radius: 20px;
   transition: all 0.3s ease 0s;
   text-align: center;
 }
 @media (max-width: 991.98px) {
   .signup {
-    padding: 10px;
+    padding: 0.7em;
   }
 }
 @media (any-hover: hover) {

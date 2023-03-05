@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +8,7 @@ import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 export class HeaderComponent {
   @ViewChild('menuBtn', { static: true }) menuBtn: ElementRef | undefined;
   @ViewChild('menuBody', { static: true }) menuBody: ElementRef | undefined;
-  arr: number[] = [1, 2, 3, 4];
+
   bodyLockToggle() {
     document.querySelector('body')!.classList.contains('lock')
       ? document.querySelector('body')!.classList.remove('lock')
@@ -30,12 +30,4 @@ export class HeaderComponent {
     this.menuBtn?.nativeElement.classList.remove('menu-open');
     this.menuBody?.nativeElement.classList.toggle('menu-open');
   }
-
-  // @HostListener('window:resize', ['$event'])
-  // onWindowResize(){
-  //   const viewportWidth  = Math.max(document.documentElement.clientWidth, window.innerWidth);
-  //   if(viewportWidth <= 500){
-
-  //   }
-  // }
 }
