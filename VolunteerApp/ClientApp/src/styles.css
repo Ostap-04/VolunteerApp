@@ -1,16 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+/* MAIN STYLES FILE*/
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+/* canceling base browser styles */
+@import "./normalize.css";
+/* font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap");
+:root {
+  /* devices' width vars for media queries */
+  /* --pc: 90em;
+  --tablet: 61.9em;
+  --mobile: 47.9em;
+  --mobileSmall: 29.9em; */
+  --fontFamily: "Poppins", sans-serif;
+  --baseFontSize: 1rem;
 }
 
-code {
-  color: #e01a76;
+body.lock {
+  overflow: hidden;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--fontFamily);
+  font-size: var(--baseFontSize);
+  color: #000;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+[class*="__container"] {
+  max-width: 88.125em;
+  padding: 0 15px;
+  margin: 0 auto;
 }
