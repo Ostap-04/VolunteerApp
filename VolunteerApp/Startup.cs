@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Data;
-using Volunteer.DataAccess.Data.Services;
 
 namespace VolunteerApp
 {
