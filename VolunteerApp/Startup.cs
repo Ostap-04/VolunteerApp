@@ -18,8 +18,6 @@ namespace VolunteerApp
         {
             services.AddDbContext<VolunteerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VolunteerDbConnectionString")));
 
-            services.AddScoped<IUsersService, UsersService>();
-
             services.AddControllersWithViews();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
