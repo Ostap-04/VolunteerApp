@@ -46,11 +46,17 @@ namespace DataAccess.Data
             }
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Guest> Guests { get; set; }
-        public DbSet<Request> Requests { get; set; }
-        public DbSet<Category_Request> Categories_Requests { get; set;}
+        public override int SaveChanges()
+        {
+
+            return base.SaveChanges();
+        }
+
+        public DbSet<User> User { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Guest> Guest { get; set; }
+        public DbSet<Request> Request { get; set; }
+        public DbSet<Category_Request> Category_Request { get; set;}
         
     }
 
