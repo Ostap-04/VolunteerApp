@@ -10,6 +10,7 @@ namespace VolunteerApp
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+            Console.WriteLine("Something");
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

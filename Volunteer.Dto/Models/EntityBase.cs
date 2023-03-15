@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Volunteer.Dto.Models
 {
     public class EntityBase
@@ -12,10 +7,10 @@ namespace Volunteer.Dto.Models
 
         public DateTime CreatedDate { get; set; }
 
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
-        public string ModifiedBy { get; set; }
+        public int? ModifiedBy { get; set; }
     }
 }
