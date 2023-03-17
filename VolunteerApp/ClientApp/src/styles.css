@@ -7,13 +7,25 @@
 :root {
   /* devices' width vars for media queries */
   /* --pc: 90em;
-  --tablet: 61.9em;
+  --tablet: 62em;
   --mobile: 47.9em;
   --mobileSmall: 29.9em; */
   --fontFamily: "Poppins", sans-serif;
   --baseFontSize: 1rem;
 }
 
+body::-webkit-scrollbar {
+  width: 5px;
+}
+body::-webkit-scrollbar-track {
+  background: #181716;
+}
+body::-webkit-scrollbar-thumb {
+  background: #4d6f66;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #7cb0a2;
+}
 body.lock {
   overflow: hidden;
 }

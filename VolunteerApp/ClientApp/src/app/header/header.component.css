@@ -35,7 +35,7 @@
   font-weight: 700;
   transition: all 0.3s ease 0s;
 }
-.menu__link.active {
+.menu__link.link-active {
   color: #fff;
 }
 .menu__header-actions {
@@ -145,6 +145,9 @@
     flex: 0 0 77px;
     max-width: 4.8125rem;
   }
+  .menu__link {
+    font-size: 2rem;
+  }
 }
 @media (max-width: 550px) {
   .header {
@@ -162,8 +165,8 @@
   .menu__header-actions {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
-    font-size: 2rem;
+    gap: 2rem;
+    font-size: 1.5rem;
     align-items: center;
   }
   .header__logo {
