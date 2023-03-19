@@ -17,8 +17,11 @@ namespace VolunteerApp
         {
             services.AddDbContext<VolunteerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VolunteerDbConnectionString")));
 
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddControllersWithViews();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -38,7 +38,7 @@ namespace DataAccess.Data
                 new RequestAnnotation(modelBuilder),
                 new GuestAnnotation(modelBuilder),
                 new CategoryAnnotation(modelBuilder),
-                new Category_RequestAnnotation(modelBuilder),
+                new Category_RequestAnnotation(modelBuilder)
             };
             foreach (var annotation in annotationCollection)
             {
@@ -56,7 +56,6 @@ namespace DataAccess.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<Guest> Guest { get; set; }
         public DbSet<Request> Request { get; set; }
-        public DbSet<Category_Request> Category_Request { get; set;}
         
     }
 
