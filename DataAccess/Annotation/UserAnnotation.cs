@@ -1,10 +1,11 @@
 ﻿using Volunteer.Dto.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Volunteer.DataAccess.Annotation
 {
     internal class UserAnnotation : BaseEntityAnnotation<User>
     {
-        internal UserAnnotation(Microsoft.EntityFrameworkCore.ModelBuilder builder)
+        internal UserAnnotation(ModelBuilder builder)
             : base(builder)
         {
         }
@@ -12,12 +13,16 @@ namespace Volunteer.DataAccess.Annotation
         public override void Annotate()
         {
             ModelBuilder.HasKey(e => e.Id);
-            ModelBuilder.Property(e => e.Id).ValueGeneratedNever();
+            ModelBuilder.Property(e => e.Id).ValueGeneratedOnAdd().UseIdentityColumn();
             ModelBuilder.Property(e => e.Name).IsRequired().HasMaxLength(30);
             ModelBuilder.Property(e => e.MidName).IsRequired().HasMaxLength(30);
             ModelBuilder.Property(e => e.Surname).IsRequired().HasMaxLength(30);
-            ModelBuilder.HasMany<Request>(e => e.Requests).WithOne(u => u.User).HasForeignKey(g => g.UserId);
+            ModelBuilder.HasMany(e => e.Requests).WithOne(u => u.User).HasForeignKey(e => e.UserId).IsRequired(false);
             ModelBuilder.Property(e => e.Role).IsRequired();
+            ModelBuilder.Property(e => e.CreatedBy).IsRequired();
+            ModelBuilder.Property(e => e.CreatedDate).IsRequired();
+            ModelBuilder.Property(e => e.ModifiedBy);
+            ModelBuilder.Property(e => e.ModifiedDate);
         }
     }
 }
