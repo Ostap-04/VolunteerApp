@@ -2,35 +2,40 @@
   <app-header></app-header>
   <main class="requsts-page">
     <div class="requsts-page__container">
-      <aside class="requsts-page__filters">
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">автомобілі</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">дрони</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">тепловізори</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">зброя</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">зброя</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">їжа та особиста гігієна</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">засоби зв’язку</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">медикаменти</mat-checkbox>
-        </div>
-        <div class="filter">
-          <mat-checkbox [labelPosition]="'after'" color="primary">електрифікація</mat-checkbox>
-        </div>
-      </aside>
+      <mat-expansion-panel class="requsts-page__filters" [expanded]="!isTabletWidth"  [hideToggle]="!isTabletWidth">
+        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'" class="filters__title">
+          Фільтри
+        </mat-expansion-panel-header>
+        <mat-list class="filters__list">
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">автомобілі</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">дрони</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">тепловізори</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">зброя</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">спорядження</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">їжа та особиста гігієна</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">засоби зв’язку</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">медикаменти</mat-checkbox>
+            </mat-list-item>
+            <mat-list-item class="filter">
+              <mat-checkbox [labelPosition]="'after'" color="primary">електрифікація</mat-checkbox>
+            </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel> 
       <mat-form-field class="requests-page__search">
         <mat-label>Пошук</mat-label>
         <input matInput placeholder="напр. ім'я користувача">

@@ -12,7 +12,7 @@
     <h4 class="requst-title">{{requestTitle}}</h4>
     <p class="request-content">
       {{showMore? requestContent : requestContent | slice:0:30}}
-      <span style="cursor:pointer" *ngIf="textOverflow" (click)="showMore = !showMore">...показати <span>{{showMore? "менше" : "більше"}}</span> </span>
+      <span style="cursor:pointer" *ngIf="textOverflow" (click)="showMore = !showMore"><span *ngIf="!showMore">...</span>показати <span>{{showMore? "менше" : "більше"}}</span></span>
     </p>
   </div>
 </div>
