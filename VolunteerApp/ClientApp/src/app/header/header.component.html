@@ -1,13 +1,13 @@
 <header class="header">
   <div class="header__container">
-    <a href="#" class="header__logo"
+    <a routerLink="/" class="header__logo"
       ><img src="./assets/images/logo-white-highres.png"
     /></a>
-    <div class="header__menu menu" #menuBody>
+    <div class="header__menu menu" [class.menu-open]="isMenuOpen">
       <nav class="menu__body">
         <ul class="menu__list">
-          <li class="menu__item"><a href="#" class="menu__link">Головна</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Запити</a></li>
+          <li class="menu__item"><a routerLink="/" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact: true}" class="menu__link">Головна</a></li>
+          <li class="menu__item"><a routerLink="/requests-page" routerLinkActive="link-active" class="menu__link">Запити</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Профіль</a></li>
         </ul>
         <div class="menu__header-actions">
@@ -21,9 +21,9 @@
       <app-signup-button></app-signup-button>
     </div>
     <button
-      #menuBtn
       type="button"
       class="menu__icon icon-menu"
+      [class.menu-open]="isMenuOpen"
       (click)="toggleMenu()"
     >
       <span></span>
