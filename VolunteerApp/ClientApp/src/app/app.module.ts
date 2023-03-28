@@ -14,7 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RequestsPageComponent } from './requests-page/requests-page.component';
 import { RequestComponent } from './requests-page/request/request.component';
-import { AuthorizationPageComponent } from './authorization-page/authorization-page.component';
+import { AuthorizationPageComponent } from './entry-pages/authorization-page/authorization-page.component';
 
 import { MaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
