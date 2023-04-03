@@ -1,4 +1,6 @@
-﻿namespace Volunteer.Dto.Models
+﻿using System.Collections.Generic;
+
+namespace Volunteer.Dto.Models
 {
     public class User : EntityBase
     {
@@ -9,7 +11,7 @@
 
         public string MidName { get; set; }
 
-        public virtual ICollection<Request>? Requests { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
 
         public Role Role { get; set; }
 

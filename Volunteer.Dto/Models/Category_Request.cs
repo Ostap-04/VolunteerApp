@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Volunteer.Dto.Models
+﻿namespace Volunteer.Dto.Models
 {
     public class Category_Request
     {

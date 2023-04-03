@@ -17,53 +17,50 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
-            return await _context.Category.ToListAsync();
+            return Json(await _context.Category.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<Category>> GetCategoryById(int id)
         {
             var category = await _context.Category.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (category == null)
-            {
-                return NotFound();
-            }
+            if (category == default) return NotFound();
 
-            return category;
+            return Json(category);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddCategory(Category category)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }
-            _context.Category.Add(category);
-            await _context.SaveChangesAsync();
+                await _context.Category.AddAsync(category);
 
-            return CreatedAtAction("AddCategory", new { id = category.Id }, category);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("AddCategory", new { id = category.Id }, category);
+            }
+
+            var message = GetModelValidationErrors();
+
+            return BadRequest(message);
         }
+
         [HttpPut]
         public async Task<ActionResult<Category>> UpdateCategory(Category category)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            if (category.Id == default || !CategoryExists(category.Id)) return NotFound();
 
-            if (!CategoryExists(category.Id))
-            {
-                return NotFound();
-            }
+            if (!ModelState.IsValid) return BadRequest(GetModelValidationErrors());
 
             _context.Category.Update(category);
+
             await _context.SaveChangesAsync();
 
-            return category;
+            return Json(category);
         }
 
         [HttpDelete("{id}")]
@@ -71,19 +68,25 @@ namespace VolunteerApp.Controllers
         {
             var category = await _context.Category.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (category == null)
-            {
-                return NotFound();
-            }
+            if (category == default) return NotFound();
 
             _context.Category.Remove(category);
+
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
+
         private bool CategoryExists(int id)
         {
             return _context.Category.Any(e => e.Id == id);
+        }
+
+        private IEnumerable<string> GetModelValidationErrors()
+        {
+           return ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
         }
     }
 }
