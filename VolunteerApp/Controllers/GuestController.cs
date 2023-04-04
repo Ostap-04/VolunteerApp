@@ -70,7 +70,6 @@ namespace VolunteerApp.Controllers
 
             if (guest == default) return NotFound();
 
-
             _context.Guest.Remove(guest);
 
             await _context.SaveChangesAsync();
