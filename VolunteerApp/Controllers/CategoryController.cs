@@ -45,8 +45,14 @@ namespace VolunteerApp.Controllers
             _context.Category.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("AddCategory", new { id = category.Id }, category);
+                return Ok();
+            }
+
+            var message = GetModelValidationErrors();
+
+            return BadRequest(message);
         }
+
         [HttpPut]
         public async Task<ActionResult<Category>> UpdateCategory(Category category)
         {
