@@ -7,7 +7,9 @@ import {
   MatCheckboxModule, 
   MatPaginatorModule,
   MatExpansionModule,
-  MatListModule
+  MatListModule,
+  MatRadioModule,
+  MatStepperModule
 } from '@angular/material';
 
 const MaterialComponents = [
@@ -18,7 +20,9 @@ const MaterialComponents = [
   MatCheckboxModule,
   MatPaginatorModule,
   MatExpansionModule,
-  MatListModule
+  MatListModule,
+  MatRadioModule,
+  MatStepperModule
 ];
 
 

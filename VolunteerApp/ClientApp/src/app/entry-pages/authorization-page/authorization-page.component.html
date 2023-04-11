@@ -1,0 +1,178 @@
+<div class="page-authorization">
+  <div class="authorization">
+    <!-- ngStyle active step for smooth transition -->
+    <h2 class="authorization__title">Реєстрація</h2>
+    <form (ngSubmit)="onSubmit()" class="form" [formGroup]="signupForm" autocomplete="off">
+      <div class="form-group" *ngIf="!confirmStep">
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="nickname" class="form-group__label">Ім'я користувача</mat-label>
+          <input matInput type="text" id="nickname" name="nickname" formControlName="nickname"> 
+          <mat-error *ngIf="signupForm.get('nickname')?.hasError('required')">Ім'я користувача <strong>обов'язкове</strong></mat-error>
+          <mat-error *ngIf="signupForm.get('nickname')?.hasError('notUniqueNickName')">Ім'я користувача зайняте</mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="surname" class="form-group__label">Прізвище</mat-label>
+          <input matInput type="text" id="surname" name="surname" formControlName="surname"> 
+          <mat-error *ngIf="signupForm.get('surname')?.hasError('required')">Прізвище <strong>обов'язкове</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="name" class="form-group__label">Ім'я</mat-label>
+          <input matInput type="text" id="name" name="name" formControlName="name"> 
+          <mat-error *ngIf="signupForm.get('name')?.hasError('required')">Ім'я <strong>обов'язкове</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="fathername" class="form-group__label">По-батькові</mat-label>
+          <input matInput type="text" id="fathername" name="fathername" formControlName="fathername"> 
+          <mat-error *ngIf="signupForm.get('fathername')?.hasError('required')">Ім'я по-батькові <strong>обов'язкове</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="phone" class="form-group__label">Номер телефону</mat-label>
+          <input matInput 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            formControlName="phone"
+            placeholder="(+380) XX-XXX-XX-XX"
+            [textMask]="{mask: phoneInputMask}"> 
+          <mat-error *ngIf="signupForm.get('phone')?.hasError('required')">Номер телефону <strong>обов'язковий</strong></mat-error>
+          <mat-error *ngIf="signupForm.get('phone')?.hasError('invalidPhone')">Номер телефону <strong>не коректний</strong></mat-error>
+          <mat-error *ngIf="signupForm.get('phone')?.hasError('notUniquePhone')">Номер телефону <strong>вже існує</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="email" class="form-group__label">Електронна адреса</mat-label>
+          <input matInput type="email" id="email" name="email" formControlName="email"> 
+          <mat-error *ngIf="signupForm.get('email')?.hasError('required')">Електронна адреса <strong>обов'язкова</strong></mat-error>
+          <mat-error *ngIf="signupForm.get('email')?.hasError('email') && !signupForm.get('email')?.hasError('required')">Не коректна електронна адреса</mat-error>
+        </mat-form-field>
+        <mat-form-field ngClass="isInvalidPassword ? password-field" class="form-group__row" appearance="fill">
+          <mat-label for="password" class="form-group__label">Пароль</mat-label>
+          <div ngClass="showPasswordTips ? tips" 
+            *ngIf="showPasswordTips">
+            <div class=""><p>Пароль <strong>повинен</strong> містити:</p><span (click)="showPasswordTips=false">X</span></div>
+            <ul class="tips__list">
+              <li>Не менше 8 символів</li>
+              <li>Малі літери a-z</li>
+              <li>Великі літери A-Z</li>
+              <li>Бодай 1 символ з: $@^!%*?&</li>
+              <li>Цифри</li>
+            </ul>
+          </div>
+          <input matInput
+            [type]=" showPassword ? 'text' : 'password' " 
+            id="password" name="password" formControlName="password"> 
+          <button type="button" mat-icon-button matSuffix color="primary" (click)="showPassword = !showPassword">
+            <mat-icon> {{showPassword?'visibility_off':'visibility'}}</mat-icon>
+          </button>
+          <mat-hint 
+            *ngIf="signupForm.get('password').pristine"
+            style="color: rgb(73, 102, 217); font-size: 14px;">
+            <strong>0-9, a-z, A-Z, [$@^!%*?&]</strong>
+          </mat-hint> 
+          <mat-error 
+            *ngIf="passwordErrors.includes('required') 
+            && !passwordErrors.includes('notUniquePassword')">
+            Створіть пароль
+          </mat-error>
+          <mat-error 
+            *ngIf="passwordErrors.includes('notUniquePassword')">
+            Такий пароль вже існує
+          </mat-error>
+          <mat-hint 
+            *ngIf="passwordErrors.length === 4" style="color:rgb(233, 26, 26)">
+            <strong>Дуже слабкий</strong>
+          </mat-hint>
+          <mat-hint 
+            *ngIf="passwordErrors.length === 3 
+            && !passwordErrors.includes('notUniquePassword')"
+            style="color:rgb(37, 176, 211)">
+            <strong>Слабкий</strong>
+          </mat-hint>
+          <mat-hint 
+            *ngIf="passwordErrors.length === 2 
+            && !passwordErrors.includes('notUniquePassword')" 
+            style="color:rgb(73, 102, 217)">
+            <strong>Достатньо надійний</strong>
+          </mat-hint>
+          <mat-hint 
+            *ngIf="passwordErrors.length === 1 
+            && !passwordErrors.includes('required') 
+            && !passwordErrors.includes('notUniquePassword')" 
+            style="color:rgb(72, 214, 136)">
+            <strong>Надійний</strong>
+          </mat-hint>
+          <mat-hint 
+            *ngIf="passwordErrors.length === 0 
+            && !passwordErrors.includes('notUniquePassword')" 
+            style="color:rgb(97, 238, 127)"><strong>Дуже надійний</strong></mat-hint>
+        </mat-form-field>
+        <mat-form-field class="form-group__row" appearance="fill">
+          <mat-label for="confirmPassword" class="form-group__label">Підтвердіть пароль</mat-label>
+          <input matInput type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword">
+          <mat-error 
+            *ngIf="signupForm.get('confirmPassword')?.hasError('mismatch') 
+            && signupForm.get('confirmPassword').touched">
+            Паролі не співпадають
+          </mat-error>
+          <mat-error></mat-error>
+        </mat-form-field>
+        <div class="radio-group">
+          <div class="radio" *ngFor="let roleItem of roles">
+            <label>
+              <input type="radio" [value]="roleItem" name="role" formControlName="role">
+              {{roleItem}}
+            </label>
+          </div>
+        </div>
+        <button 
+          mat-raised-button 
+          class="next-step-button" 
+          type="button" 
+          (click)="handleUserData()">
+          Далі
+        </button>
+      </div>
+      <div class="form-group form-group_confirm"
+        *ngIf="confirmStep">
+        <p class="confirm-title form-group__row">
+          Підтвердьте те, що ви військовий,<br>
+          завантаживши документ
+        </p>
+        <form-field class="input-box form-group__row">
+          <label class="input-box__label">{{ uploadFileLabel }}</label>
+          <div class="input-box__field">
+            <input type="file" accept="image/*" class="input-file" id="confirmationFile"
+            (change)="handleFileInput($any($event.target).files)"
+            name="confirmData" formControlName='confirmData'>
+            <label mat-raised-button for="confirmationFile" class="browse-btn btn" type="button">Обрати</label>
+          </div>
+          <button class="upload-btn btn" type="button" (click)="upload()">Заванажити</button>
+        </form-field>
+        <div class="form-group__row" *ngIf="working">
+          <div class="progress-bar" [ngStyle]="{ 'width': uploadProgress + '%' }">{{ uploadProgress }}%</div>
+        </div>
+        <div class="form-agreement form-group__row">
+          <mat-checkbox checked="true" color="primary">Продовжуючи, ви приймаєте наші </mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
+        </div>
+        <div class="form-group__row form-group__buttons">
+          <button 
+          mat-raised-button 
+          class="form-group__btn"
+          type="button" 
+          (click)="confirmStep = false">
+          Назад
+        </button>
+        <button 
+        mat-raised-button 
+        class="form-group__btn" 
+        type="submit" 
+        (click)="onNextStepClick()"
+        [disabled]="!signupForm.valid"
+        >Зареєструватись</button>  
+        </div>      
+      </div>
+    </form>
+    <div class="have-account" *ngIf="!confirmStep">
+      Уже маєте акаунт? <button routerLink="/"> Увійти</button>
+    </div>
+  </div>
+</div>
