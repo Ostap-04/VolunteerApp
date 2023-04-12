@@ -14,9 +14,11 @@ import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
   styleUrls: ['./authorization-page.component.css']
 })
 export class AuthorizationPageComponent implements OnInit {
-  constructor(private http: HttpClient, private authService: AuthorizationService) {}
+  constructor(private http: HttpClient, 
+    private authService: AuthorizationService,
+    private router: Router) {}
 
-  confirmStep: boolean = true;
+  confirmStep: boolean = false;
   showPassword: boolean = false;
   showPasswordTips: boolean = false;
   isLoading: boolean = false;
@@ -81,8 +83,6 @@ export class AuthorizationPageComponent implements OnInit {
     window.scrollTo({
       top: 0
     });
-    console.log(this.signupForm);
-    
   }
 
   handleUserData() {
@@ -95,6 +95,7 @@ export class AuthorizationPageComponent implements OnInit {
     }else{
       this.showPasswordTips = true;
     }
+    this.confirmStep = !this.confirmStep;
   }
   
   get passwordErrors() {
@@ -143,6 +144,7 @@ export class AuthorizationPageComponent implements OnInit {
   goToTermsOfUse(){
     console.log('p');
   }
+
   onSubmit() {
     if(this.signupForm.valid){
       const signUpData = new SignupData(
@@ -155,11 +157,19 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.password,
         this.signupForm.value.confirmData
       );
-      
+      this.isLoading = true;      
       this.authService.signUp(signUpData).subscribe(
         {
-          next: (result) => console.log(result),
-          error: (error) => console.log(error)
+          next: (result) => {
+            console.log(result);
+            this.isLoading = false;
+            this.authService.user.next(signUpData);
+            this.router.navigate(['/account-page']);
+          },
+          error: (error) => {
+            this.isLoading = false;
+            console.log(error);
+          },
         }
       );
       this.signupForm.reset();

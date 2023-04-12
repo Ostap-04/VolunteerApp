@@ -16,9 +16,11 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { RequestsPageComponent } from './requests-page/requests-page.component';
 import { RequestComponent } from './requests-page/request/request.component';
 import { AuthorizationPageComponent } from './entry-pages/authorization-page/authorization-page.component';
+import { AccountPageComponent } from './account-page/account-page.component';
 
 import { MaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { AppRoutingModule } from './modules/app-routing.module';
     FooterComponent,
     RequestsPageComponent,
     RequestComponent,
-    AuthorizationPageComponent
+    AccountPageComponent,
+    AuthorizationPageComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), 

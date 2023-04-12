@@ -10,16 +10,18 @@
           <li class="menu__item"><a routerLink="/requests-page" routerLinkActive="link-active" class="menu__link">Запити</a></li>
           <li class="menu__item"><a class="menu__link">Профіль</a></li>
         </ul>
-        <div class="menu__header-actions">
+        <div *ngIf="!userMode" class="menu__header-actions">
           <app-login-button></app-login-button>
           <app-signup-button ></app-signup-button>
         </div>
+        <a href="" *ngIf="userMode" class="menu__logout" (click)="onLogout()">Вийти</a>
       </nav>
     </div>
-    <div class="header__actions">
+    <div *ngIf="!userMode" class="header__actions">
       <app-login-button></app-login-button>
       <app-signup-button></app-signup-button>
     </div>
+    <a href="" *ngIf="userMode" class="logout" (click)="onLogout()">Вийти</a>
     <button
       type="button"
       class="menu__icon icon-menu"

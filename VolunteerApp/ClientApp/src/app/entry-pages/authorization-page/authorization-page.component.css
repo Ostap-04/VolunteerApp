@@ -3,7 +3,14 @@
   padding: 30px 15px;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  position: relative;
+}
+.loading-spinner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 3;
 }
 .authorization {
   max-width: 800px;
@@ -11,7 +18,15 @@
   background-color: #424242;
   border-radius: 20px;  
   margin: 0 auto;
+  min-height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease 0s;
+}
+.authorization.dusk {
+  opacity: 0.8;
+  background-color: #363636;
 }
 .authorization__title {
   text-align: center;
@@ -23,7 +38,7 @@
 }
 .form {
   padding: 10px 20px 10px;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   align-items: center;
 }
@@ -32,6 +47,7 @@
   flex-wrap: wrap;
   row-gap: 10px;
   justify-content: center;
+  flex: 1 1 auto;
 }
 .form-group__row {
   flex: 1 1 100%;
@@ -143,6 +159,9 @@
 .progress-bar {
   background-color: blue;
   height: 2px;
+}
+.form-agreement{
+  flex: 1 1 auto;
 }
 .form-agreement span{
   font-weight: 600;
