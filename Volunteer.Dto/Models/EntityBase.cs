@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Volunteer.Dto.Models
 {
     public class EntityBase

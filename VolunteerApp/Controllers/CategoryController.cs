@@ -44,9 +44,10 @@ namespace VolunteerApp.Controllers
                 return Ok();
             }
             var message = GetModelValidationErrors();
-
+            
             return BadRequest(message);
         }
+
         [HttpPut]
         public async Task<ActionResult<Category>> UpdateCategory(Category category)
         {
@@ -69,14 +70,17 @@ namespace VolunteerApp.Controllers
             if (category == default) return NotFound();
 
             _context.Category.Remove(category);
+
             await _context.SaveChangesAsync();
 
             return Ok();
         }
+
         private bool CategoryExists(int id)
         {
             return _context.Category.Any(e => e.Id == id);
         }
+
         private IEnumerable<string> GetModelValidationErrors()
         {
             return ModelState.Values

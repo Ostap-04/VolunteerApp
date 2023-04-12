@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore;
-using System;
-using System.Data.SqlClient;
-using DataAccess.Data;
 
 namespace VolunteerApp
 {

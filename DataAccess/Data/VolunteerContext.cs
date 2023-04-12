@@ -1,10 +1,10 @@
-﻿using Volunteer.Dto.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Volunteer.DataAccess.Annotation;
+using Volunteer.Dto.Models;
 
 namespace DataAccess.Data
 {

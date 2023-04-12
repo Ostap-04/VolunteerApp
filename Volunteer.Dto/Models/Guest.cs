@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Volunteer.Dto.Models
+﻿namespace Volunteer.Dto.Models
 {
     public class Guest
     {

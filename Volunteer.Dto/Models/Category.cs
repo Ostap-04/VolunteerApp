@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 
 namespace Volunteer.Dto.Models
@@ -9,6 +9,6 @@ namespace Volunteer.Dto.Models
 
         public string Name { get; set; }
 
-        public List<Category_Request>? Category_Requests { get; set; }
+        public List<Category_Request> Category_Requests { get; set; }
     }
 }
