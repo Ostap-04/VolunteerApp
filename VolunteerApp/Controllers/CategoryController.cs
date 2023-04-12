@@ -41,11 +41,10 @@ namespace VolunteerApp.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("AddCategory", new { id = category.Id }, category);
+                return Ok();
             }
-
             var message = GetModelValidationErrors();
-
+            
             return BadRequest(message);
         }
 
@@ -54,7 +53,7 @@ namespace VolunteerApp.Controllers
         {
             if (category.Id == default || !CategoryExists(category.Id)) return NotFound();
 
-            if (!ModelState.IsValid) return BadRequest(GetModelValidationErrors());
+            if (!ModelState.IsValid) return BadRequest();
 
             _context.Category.Update(category);
 
@@ -84,9 +83,9 @@ namespace VolunteerApp.Controllers
 
         private IEnumerable<string> GetModelValidationErrors()
         {
-           return ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
+            return ModelState.Values
+                 .SelectMany(v => v.Errors)
+                 .Select(e => e.ErrorMessage);
         }
     }
 }

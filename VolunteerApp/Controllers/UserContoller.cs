@@ -7,7 +7,7 @@ namespace VolunteerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private readonly VolunteerContext _context;
 
@@ -17,22 +17,19 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            return await _context.User.ToListAsync();
+            return Json(await _context.User.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await _context.User.FirstOrDefaultAsync( c => c.Id == id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == default) return NotFound();
 
-            return user;
+            return Json(user);
         }
 
         [HttpPost]
@@ -40,32 +37,29 @@ namespace VolunteerApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                await _context.User.AddAsync(user);
+                await _context.SaveChangesAsync();
+
+                return Ok();
             }
 
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            var message = GetModelValidationErrors();
 
-            return CreatedAtAction("AddUser", new { id = user.Id}, user);
+            return BadRequest(message);
         }
 
         [HttpPut]
         public async Task<ActionResult<User>> UpdateUser(User user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            if (user.Id == default || !UserExists(user.Id)) NotFound();
 
-            if (!UserExists(user.Id))
-            {
-                return NotFound();
-            }
+            if (!ModelState.IsValid)return BadRequest(GetModelValidationErrors());
 
             _context.User.Update(user);
+
             await _context.SaveChangesAsync();
 
-            return user;
+            return Json(user);
         }
 
         [HttpDelete("{id}")]
@@ -73,19 +67,33 @@ namespace VolunteerApp.Controllers
         {
             var user = await _context.User.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == default) return NotFound();
 
             _context.User.Remove(user);
+
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        private bool PhoneNumberExists(string number)
+        {
+            return _context.User.Any(p => p.Phone_Number == number);
+        }
+
+        private bool NicknameExists(string nickName)
+        {
+            return _context.User.Any(n => n.NickName == nickName);
+        }
+        private IEnumerable<string> GetModelValidationErrors()
+        {
+            return ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
         }
     }
 }

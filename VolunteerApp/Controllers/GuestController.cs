@@ -17,53 +17,50 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Guest>>> GetGuests()
+        public async Task<ActionResult<IEnumerable<Guest>>> GetAllGuests()
         {
-            return await _context.Guest.ToListAsync();
+            return Json(await _context.Guest.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Guest>> GetGuest(int id)
+        public async Task<ActionResult<Guest>> GetGuestById(int id)
         {
             var guest = await _context.Guest.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (guest == null)
-            {
-                return NotFound();
-            }
+            if (guest == default) return NotFound();
 
-            return guest;
+            return Json(guest);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddGuest(Guest guest)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }
-            _context.Guest.Add(guest);
-            await _context.SaveChangesAsync();
+                await _context.Guest.AddAsync(guest);
 
-            return CreatedAtAction("AddGuest", new { id = guest.Id }, guest);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            var message = GetModelValidationErrors();
+
+            return BadRequest(message);
+
         }
+
         [HttpPut]
         public async Task<ActionResult<Guest>> UpdateGuest(Guest guest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            if (!GuestExists(guest.Id))
-            {
-                return NotFound();
-            }
+            if (guest.Id == default || !GuestExists(guest.Id)) return NotFound();
+            
+            if (!ModelState.IsValid) return BadRequest();
 
             _context.Guest.Update(guest);
+
             await _context.SaveChangesAsync();
 
-            return guest;
+            return Json(guest);
         }
 
         [HttpDelete("{id}")]
@@ -71,20 +68,23 @@ namespace VolunteerApp.Controllers
         {
             var guest = await _context.Guest.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (guest == null)
-            {
-                return NotFound();
-            }
+            if (guest == default) return NotFound();
 
             _context.Guest.Remove(guest);
+
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
         private bool GuestExists(int id)
         {
             return _context.Guest.Any(e => e.Id == id);
         }
-
+        private IEnumerable<string> GetModelValidationErrors()
+        {
+            return ModelState.Values
+                 .SelectMany(v => v.Errors)
+                 .Select(e => e.ErrorMessage);
+        }
     }
 }

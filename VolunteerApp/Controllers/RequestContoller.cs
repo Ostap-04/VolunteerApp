@@ -17,53 +17,48 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
+        public async Task<ActionResult<IEnumerable<Request>>> GetAllRequests()
         {
-            return await _context.Request.ToListAsync();
+            return Json(await _context.Request.ToListAsync());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Request>> GetRequest(int id)
+        public async Task<ActionResult<Request>> GetRequestById(int id)
         {
             var request = await _context.Request.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (request == null)
-            {
-                return NotFound();
-            }
+            if (request == default) return NotFound();
 
-            return request;
+            return Json(request);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddRequest(Request request)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
-            }
-            _context.Request.Add(request);
-            await _context.SaveChangesAsync();
+                await _context.Request.AddAsync(request);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("AddRequest", new { id = request.Id }, request);
+                return Ok();
+            }
+            var message = GetModelValidationErrors();
+
+            return BadRequest(message);
         }
+
         [HttpPut]
         public async Task<ActionResult<Request>> UpdateRequest(Request request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            if (request.Id == default || !RequestExists(request.Id)) return NotFound();
 
-            if (!RequestExists(request.Id))
-            {
-                return NotFound();
-            }
+            if (!ModelState.IsValid) return BadRequest(GetModelValidationErrors());
 
             _context.Request.Update(request);
+
             await _context.SaveChangesAsync();
 
-            return request;
+            return Json(request);
         }
 
         [HttpDelete("{id}")]
@@ -71,19 +66,22 @@ namespace VolunteerApp.Controllers
         {
             var request = await _context.Request.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (request == null)
-            {
-                return NotFound();
-            }
+            if (request == default) NotFound();
 
             _context.Request.Remove(request);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
         private bool RequestExists(int id)
         {
             return _context.Request.Any(e => e.Id == id);
+        }
+        private IEnumerable<string> GetModelValidationErrors()
+        {
+            return ModelState.Values
+                 .SelectMany(v => v.Errors)
+                 .Select(e => e.ErrorMessage);
         }
     }
 }
