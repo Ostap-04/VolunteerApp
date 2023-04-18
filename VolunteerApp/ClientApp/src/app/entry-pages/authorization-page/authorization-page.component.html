@@ -154,7 +154,7 @@
           <div class="progress-bar" [ngStyle]="{ 'width': uploadProgress + '%' }">{{ uploadProgress }}%</div>
         </div>
         <div class="form-agreement form-group__row">
-          <mat-checkbox checked="true" color="primary">Продовжуючи, ви приймаєте наші </mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
+          <mat-checkbox checked="isAgreed" color="primary" (click)="isAgreed = !isAgreed">Продовжуючи, ви приймаєте наші </mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
         </div>
         <div class="form-group__row form-group__buttons">
           <button 
@@ -169,9 +169,9 @@
         class="form-group__btn" 
         type="submit" 
         (click)="onSubmit()"
+        [disabled]="!signupForm.valid && !isAgreed"
         >Зареєструватись</button>  
         </div>      
-        <!-- [disabled]="!signupForm.valid" -->
       </div>
     </form>
     <div class="have-account" *ngIf="!confirmStep">

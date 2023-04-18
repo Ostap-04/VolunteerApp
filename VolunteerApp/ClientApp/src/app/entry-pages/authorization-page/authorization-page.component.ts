@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { environment } from 'src/environments/environment';
-import { UserValidators } from '../password-validators';
+import { UserValidators } from '../user-validators';
 import { AuthorizationService } from '../../shared/services/authorization.service';
 import { SignupData } from 'src/app/shared/models/classes/signup';
 import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
@@ -22,7 +22,8 @@ export class AuthorizationPageComponent implements OnInit {
   showPassword: boolean = false;
   showPasswordTips: boolean = false;
   isLoading: boolean = false;
-  
+  isAgreed: boolean = true;
+
   working: boolean = false;
   uploadFile: File | null;
   uploadFileLabel: string | undefined = "Оберіть зображення щоб завнтажити"; 
@@ -33,7 +34,7 @@ export class AuthorizationPageComponent implements OnInit {
   roles: string[] = ['Військовий', 'Волонтер'];
 
   signupForm: FormGroup = new FormGroup(
-    {
+    { 
       'nickname': new FormControl(null, [Validators.required], UserValidators.isUniqueNickName(this.authService)),
       'surname': new FormControl(null, [Validators.required]),
       'name': new FormControl(null, [Validators.required]),
@@ -86,16 +87,12 @@ export class AuthorizationPageComponent implements OnInit {
   }
 
   handleUserData() {
-    console.log(this.signupForm.get("phone").value);
     if(this.signupForm.get("password").errors == null) {
-      if(this.signupForm.status === "VALID") {
-        this.confirmStep = true;
-      }
-      return;
+      this.confirmStep = true;   
     }else{
       this.showPasswordTips = true;
+      console.log('errors');
     }
-    this.confirmStep = !this.confirmStep;
   }
   
   get passwordErrors() {
@@ -146,6 +143,7 @@ export class AuthorizationPageComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.signupForm);    
     if(this.signupForm.valid){
       const signUpData = new SignupData(
         this.signupForm.value.nickname,
@@ -155,8 +153,10 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.phone,
         this.signupForm.value.email,
         this.signupForm.value.password,
+        this.signupForm.value.role,
         this.signupForm.value.confirmData
       );
+      console.log(signUpData);
       this.isLoading = true;      
       this.authService.signUp(signUpData).subscribe(
         {
