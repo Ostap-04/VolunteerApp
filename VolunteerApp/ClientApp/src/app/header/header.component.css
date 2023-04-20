@@ -41,6 +41,33 @@
 .menu__header-actions {
   display: none;
 }
+.menu__logout,
+.logout {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background-color: #4d6f66;
+  padding: 0.83em 1.1em;
+  min-height: 52px;
+  min-width: 100px;
+  border-radius: 20px;
+  transition: all 0.3s ease 0s;
+  text-align: center;
+}
+.logout{
+  display: inline-flex;
+}
+@media (max-width: 991.98px) {
+  .logout {
+    padding: 0.7em;
+  }
+}
+@media (any-hover: hover) {
+  .logout:hover {
+    background-color: #6ea495;
+  }
+}
 .header__actions {
   display: flex;
   align-items: center;
@@ -156,7 +183,8 @@
     row-gap: 2.5rem;
     align-items: center;
   }
-  .header__actions {
+  .header__actions,
+  .logout {
     display: none;
   }
   .menu__header-actions {
@@ -165,6 +193,9 @@
     gap: 2rem;
     font-size: 1.5rem;
     align-items: center;
+  }
+  .menu__logout{
+    display: inline-flex;
   }
   .header__logo {
     max-width: none;

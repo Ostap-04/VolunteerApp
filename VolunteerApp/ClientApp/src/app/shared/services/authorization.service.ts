@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { SignupData } from 'src/app/shared/models/classes/signup';
 import { environment } from 'src/environments/environment';
@@ -8,9 +10,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  constructor(private http: HttpClient) {}
+  user = new Subject<SignupData>();
+  
+  constructor(private http: HttpClient, private router: Router) {}
 
-  checkNickname(value: string){
+  checkNickname(value: string) {
     return this.http.post<boolean>(environment.apiUrl+'/User', {userNickname: value});
   }
 
@@ -20,5 +24,9 @@ export class AuthorizationService {
 
   signUp(userData: SignupData){
     return this.http.post<SignupData>(environment.apiUrl+'/User', userData);    
+  }
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/home-page'])
   }
 }

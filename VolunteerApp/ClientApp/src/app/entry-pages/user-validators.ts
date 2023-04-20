@@ -1,5 +1,5 @@
 import { ValidationErrors, ValidatorFn, AbstractControl, AsyncValidatorFn } from "@angular/forms";
-import { Observable, firstValueFrom } from "rxjs";
+import { Observable } from "rxjs";
 import { map, debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 import { AuthorizationService } from "../shared/services/authorization.service";
