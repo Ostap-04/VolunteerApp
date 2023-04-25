@@ -10,7 +10,8 @@ export class SignupData extends Login {
     Email: string,
     Password: string,
     public Role: string,
-    public Verification: File)
+    //public Verification: File
+  )
   {
     super(NickName, Email, Password);
   }

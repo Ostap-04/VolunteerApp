@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FirebaseAdmin.Auth;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Volunteer.DataAccess.Annotation;
 using Volunteer.Dto.Models;
 
@@ -48,8 +51,32 @@ namespace DataAccess.Data
 
         public override int SaveChanges()
         {
-
+            UpdateFields();
             return base.SaveChanges();
+        }
+
+        private void UpdateFields()
+        {
+            var user = new User();
+            if (user != null)
+            {
+                var modifiedEntities = ChangeTracker.Entries()
+                            .Where(p => p.State == EntityState.Modified || p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified || p.State == EntityState.Detached).ToList();
+                foreach (var entry in modifiedEntities)
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            user.CreatedDate = DateTime.UtcNow;
+                            user.CreatedBy = user.Id;
+                            break;
+                        case EntityState.Modified:
+                            user.ModifiedDate = DateTime.UtcNow;
+                            user.ModifiedBy = user.Id;
+                            break;
+                    }
+                }
+            }
         }
 
         public DbSet<User> User { get; set; }
@@ -58,5 +85,4 @@ namespace DataAccess.Data
         public DbSet<Request> Request { get; set; }
         
     }
-
 }

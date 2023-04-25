@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Volunteer.Dto.Models;
@@ -33,9 +34,16 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddUser(User user)
         {
-            if (!ModelState.IsValid)
+            if (NicknameExists(user.NickName) && PhoneNumberExists(user.Phone_Number)) return Json(new { nickname = user.NickName, phone_number = user.Phone_Number });
+
+            else if (NicknameExists(user.NickName)) return Json(new { nickname = user.NickName });
+
+            else if (PhoneNumberExists(user.Phone_Number)) return Json(new { phone_number = user.Phone_Number });
+
+            if (ModelState.IsValid)
             {
                 await _context.User.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -49,6 +57,7 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<User>> UpdateUser(User user)
         {
             if (user.Id == default || !UserExists(user.Id)) NotFound();
@@ -75,6 +84,7 @@ namespace VolunteerApp.Controllers
 
             return Ok();
         }
+
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);

@@ -73,7 +73,7 @@ export class AuthorizationPageComponent implements OnInit {
       ),
       'confirmPassword': new FormControl(null, [Validators.required, Validators.minLength(8)]),
       'role': new FormControl("Військовий", [Validators.required]),
-      'confirmData': new FormControl(null, Validators.required)
+      //'confirmData': new FormControl(null, Validators.required)
     },
     {
       validators: UserValidators.matchValidator
@@ -99,44 +99,44 @@ export class AuthorizationPageComponent implements OnInit {
     return this.signupForm.get('password').errors ? Object.keys(this.signupForm.get('password').errors) : [];
   }
 
-  handleFileInput(files: FileList) {
-    if(files.length) {
-      this.uploadFile = files.item(0);
-      this.uploadFileLabel = this.uploadFile?.name;
-    }
-  }
+  //handleFileInput(files: FileList) {
+  //  if(files.length) {
+  //    this.uploadFile = files.item(0);
+  //    this.uploadFileLabel = this.uploadFile?.name;
+  //  }
+  //}
 
-  upload() {
-    if (!this.uploadFile) {
-      alert('Choose a file to upload first');
-      return;
-    }
+  //upload() {
+  //  if (!this.uploadFile) {
+  //    alert('Choose a file to upload first');
+  //    return;
+  //  }
     
-    const formData = new FormData();
-    formData.append(this.uploadFile.name, this.uploadFile);
-    const url = `${environment.apiUrl}/upload`;
-    const request = new HttpRequest('POST', url, formData, {
-      reportProgress: true
-    });
+  //  const formData = new FormData();
+  //  formData.append(this.uploadFile.name, this.uploadFile);
+  //  const url = `${environment.apiUrl}/upload`;
+  //  const request = new HttpRequest('POST', url, formData, {
+  //    reportProgress: true
+  //  });
 
-    this.http.request(request).subscribe(
-      { 
-        next: (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-          } else if (event.type === HttpEventType.Response) {
-            this.uploadUrl = event.body.url;
-          }
-        }, 
-        error: (error: any) => {
-          console.error(error);
-        },
-        complete: () => {
-          this.working = false;
-        }
-      }
-    );
-  }
+  //  this.http.request(request).subscribe(
+  //    { 
+  //      next: (event: any) => {
+  //        if (event.type === HttpEventType.UploadProgress) {
+  //          this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+  //        } else if (event.type === HttpEventType.Response) {
+  //          this.uploadUrl = event.body.url;
+  //        }
+  //      }, 
+  //      error: (error: any) => {
+  //        console.error(error);
+  //      },
+  //      complete: () => {
+  //        this.working = false;
+  //      }
+  //    }
+  //  );
+  //}
 
   goToTermsOfUse(){
     console.log('p');
@@ -154,7 +154,7 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.email,
         this.signupForm.value.password,
         this.signupForm.value.role,
-        this.signupForm.value.confirmData
+        //this.signupForm.value.confirmData
       );
       console.log(signUpData);
       this.isLoading = true;      

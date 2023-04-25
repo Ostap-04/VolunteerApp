@@ -44,7 +44,7 @@ namespace VolunteerApp.Controllers
                 return Ok();
             }
             var message = GetModelValidationErrors();
-            
+
             return BadRequest(message);
         }
 
