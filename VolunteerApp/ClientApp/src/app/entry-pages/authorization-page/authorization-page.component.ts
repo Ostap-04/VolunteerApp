@@ -18,24 +18,26 @@ export class AuthorizationPageComponent implements OnInit {
     private authService: AuthorizationService,
     private router: Router) {}
 
-  confirmStep: boolean = false;
+  // confirmStep: boolean = false;
   showPassword: boolean = false;
   showPasswordTips: boolean = false;
   isLoading: boolean = false;
-  isAgreed: boolean = true;
-
+  // isAgreed: boolean = true;
+  wrongPhone: boolean = false;
+  wrongUserName: boolean = false;
+  
   working: boolean = false;
-  uploadFile: File | null;
-  uploadFileLabel: string | undefined = "Оберіть зображення щоб завнтажити"; 
-  uploadProgress: number;
-  uploadUrl: string;
+  // uploadFile: File | null;
+  // uploadFileLabel: string | undefined = "Оберіть зображення щоб завнтажити"; 
+  // uploadProgress: number;
+  // uploadUrl: string;
 
   phoneInputMask: any[] = ['+','(', '3','8','0', ')', ' ', /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
   roles: string[] = ['Військовий', 'Волонтер'];
 
   signupForm: FormGroup = new FormGroup(
     { 
-      'nickname': new FormControl(null, [Validators.required], UserValidators.isUniqueNickName(this.authService)),
+      'nickname': new FormControl(null, [Validators.required]),
       'surname': new FormControl(null, [Validators.required]),
       'name': new FormControl(null, [Validators.required]),
       'fathername': new FormControl(null, [Validators.required]),
@@ -50,7 +52,7 @@ export class AuthorizationPageComponent implements OnInit {
           }).join('')
         ), 
         {invalidPhone: true}
-      )], UserValidators.isUniquePhone(this.authService)),
+      )]),
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'password': new FormControl(
         null, 
@@ -73,7 +75,7 @@ export class AuthorizationPageComponent implements OnInit {
       ),
       'confirmPassword': new FormControl(null, [Validators.required, Validators.minLength(8)]),
       'role': new FormControl("Військовий", [Validators.required]),
-      'confirmData': new FormControl(null, Validators.required)
+      // 'confirmData': new FormControl(null, Validators.required)
     },
     {
       validators: UserValidators.matchValidator
@@ -86,60 +88,60 @@ export class AuthorizationPageComponent implements OnInit {
     });
   }
 
-  handleUserData() {
-    if(this.signupForm.get("password").errors == null) {
-      this.confirmStep = true;   
-    }else{
-      this.showPasswordTips = true;
-      console.log('errors');
-    }
-  }
+  // handleUserData() {
+  //   if(this.signupForm.get("password").errors == null) {
+  //     this.confirmStep = true;   
+  //   }else{
+  //     this.showPasswordTips = true;
+  //     console.log('errors');
+  //   }
+  // }
   
   get passwordErrors() {
     return this.signupForm.get('password').errors ? Object.keys(this.signupForm.get('password').errors) : [];
   }
 
-  handleFileInput(files: FileList) {
-    if(files.length) {
-      this.uploadFile = files.item(0);
-      this.uploadFileLabel = this.uploadFile?.name;
-    }
-  }
+  // handleFileInput(files: FileList) {
+  //   if(files.length) {
+  //     this.uploadFile = files.item(0);
+  //     this.uploadFileLabel = this.uploadFile?.name;
+  //   }
+  // }
 
-  upload() {
-    if (!this.uploadFile) {
-      alert('Choose a file to upload first');
-      return;
-    }
+  // upload() {
+  //   if (!this.uploadFile) {
+  //     alert('Choose a file to upload first');
+  //     return;
+  //   }
     
-    const formData = new FormData();
-    formData.append(this.uploadFile.name, this.uploadFile);
-    const url = `${environment.apiUrl}/upload`;
-    const request = new HttpRequest('POST', url, formData, {
-      reportProgress: true
-    });
+  //   const formData = new FormData();
+  //   formData.append(this.uploadFile.name, this.uploadFile);
+  //   const url = `${environment.apiUrl}/upload`;
+  //   const request = new HttpRequest('POST', url, formData, {
+  //     reportProgress: true
+  //   });
 
-    this.http.request(request).subscribe(
-      { 
-        next: (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-          } else if (event.type === HttpEventType.Response) {
-            this.uploadUrl = event.body.url;
-          }
-        }, 
-        error: (error: any) => {
-          console.error(error);
-        },
-        complete: () => {
-          this.working = false;
-        }
-      }
-    );
-  }
+  //   this.http.request(request).subscribe(
+  //     { 
+  //       next: (event: any) => {
+  //         if (event.type === HttpEventType.UploadProgress) {
+  //           this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+  //         } else if (event.type === HttpEventType.Response) {
+  //           this.uploadUrl = event.body.url;
+  //         }
+  //       }, 
+  //       error: (error: any) => {
+  //         console.error(error);
+  //       },
+  //       complete: () => {
+  //         this.working = false;
+  //       }
+  //     }
+  //   );
+  // }
 
   goToTermsOfUse(){
-    console.log('p');
+    // navigate to terms of use page
   }
 
   onSubmit() {
@@ -155,9 +157,12 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.password,
         this.signupForm.value.role,
         this.signupForm.value.confirmData
-      );
-      console.log(signUpData);
-      this.isLoading = true;      
+        );
+      //request
+      this.isLoading = true;     
+      // let data = JSON.parse(JSON.stringify(signUpData));   
+      // console.log(data);
+      // console.log(data.hasOwnProperty("username")); 
       this.authService.signUp(signUpData).subscribe(
         {
           next: (result) => {
@@ -168,11 +173,39 @@ export class AuthorizationPageComponent implements OnInit {
           },
           error: (error) => {
             this.isLoading = false;
+            const errorObj = JSON.parse(error);
+            if(errorObj.hasOwnProperty("nickname") && errorObj.hasOwnProperty("phone_number")){
+              this.wrongUserName = true;
+              this.wrongPhone = true;
+            } else if(errorObj.hasOwnProperty("nickname")){
+              this.wrongUserName = true;
+            }
+            else if(errorObj.hasOwnProperty("phone_number")){
+              this.wrongPhone = true;
+            }
             console.log(error);
           },
         }
       );
-      this.signupForm.reset();
+    }else{
+      if(this.signupForm.get("password").errors !== null) {
+        this.showPasswordTips = true;  
+      }
     }
+    // if(this.signupForm.valid){
+    //   const signUpData = new SignupData(
+    //     this.signupForm.value.nickname,
+    //     this.signupForm.value.surname,
+    //     this.signupForm.value.name,
+    //     this.signupForm.value.fathername,
+    //     this.signupForm.value.phone,
+    //     this.signupForm.value.email,
+    //     this.signupForm.value.password,
+    //     this.signupForm.value.role,
+    //     this.signupForm.value.confirmData
+    //   );
+    //   console.log(signUpData);
+    //   this.signupForm.reset();
+    // }
   }
 }

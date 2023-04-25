@@ -5,8 +5,12 @@
   <div class="authorization" [ngClass]="isLoading ? 'dusk' : 'authorization'">
     <h2 class="authorization__title">Реєстрація</h2>
     <form (ngSubmit)="onSubmit()" class="form" [formGroup]="signupForm" autocomplete="off">
-      <div class="form-group"
-        *ngIf="!confirmStep">
+      <div class="invalid-data-error" *ngIf="wrongPhone || wrongUserName">
+        <button class="close-error-popup" type="button" (click)="wrongPhone=false; wrongUserName=false">X</button>
+        <p class="invalid-data-error__text" *ngIf="wrongPhone">Такий номер телефону вже існує</p>
+        <p class="invalid-data-error__text" *ngIf="wrongUserName">Таке ім'я користувача вже існує</p>
+      </div>
+      <div class="form-group">
         <mat-form-field class="form-group__row" appearance="fill">
           <mat-label for="nickname" class="form-group__label">Ім'я користувача</mat-label>
           <input matInput type="text" id="nickname" name="nickname" formControlName="nickname"> 
@@ -126,15 +130,23 @@
             </label>
           </div>
         </div>
-        <button 
+        <!-- <button 
           mat-raised-button 
           class="next-step-button" 
           type="button" 
           (click)="handleUserData()">
           Далі
-        </button>
+        </button> -->
+        <button 
+        mat-raised-button 
+        class="form-group__btn" 
+        type="submit" 
+        (click)="onSubmit()"
+        
+        >Зареєструватись</button>  
       </div>
-      <div class="form-group form-group_confirm"
+      <!-- [disabled]="!signupForm.valid" -->
+      <!-- <div class="form-group form-group_confirm"
         *ngIf="confirmStep">
         <p class="confirm-title form-group__row">
           Підтвердьте те, що ви військовий,<br>
@@ -172,9 +184,9 @@
         [disabled]="!signupForm.valid && !isAgreed"
         >Зареєструватись</button>  
         </div>      
-      </div>
+      </div> -->
     </form>
-    <div class="have-account" *ngIf="!confirmStep">
+    <div class="have-account">
       Уже маєте акаунт? <button routerLink="/"> Увійти</button>
     </div>
   </div>

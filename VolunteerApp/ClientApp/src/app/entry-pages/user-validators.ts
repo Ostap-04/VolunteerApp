@@ -35,28 +35,28 @@ export class UserValidators {
   }
   
   
-  static isUniqueNickName(authService: AuthorizationService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return control.valueChanges.pipe(
-        debounceTime(2000),
-        distinctUntilChanged(),
-        switchMap((lastValue) => authService.checkNickname(lastValue)),
-        map((result: boolean) => result ? {notUniqueNickName: true} : null)
-      );    
-    };
-  }
+  // static isUniqueNickName(authService: AuthorizationService): AsyncValidatorFn {
+  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
+  //     return control.valueChanges.pipe(
+  //       debounceTime(2000),
+  //       distinctUntilChanged(),
+  //       switchMap((lastValue) => authService.checkNickname(lastValue)),
+  //       map((result) => result.phonenumber == "phoneError" ? {notUniqueNickName: true} : null)
+  //     );    
+  //   };
+  // }
 
-  static isUniquePhone(authService: AuthorizationService): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if(control.hasError('invalidPhone')){
-        return null;
-      } 
-      return authService.checkPhoneNumber(control.value)
-      .pipe(
-        debounceTime(2000),
-        distinctUntilChanged(),
-        map((result: boolean) => result ? {notUniquePhone: true} : null)
-      );
-    };
-  }
+  // static isUniquePhone(authService: AuthorizationService): AsyncValidatorFn {
+  //   return (control: AbstractControl): Observable<ValidationErrors | null> => {
+  //     if(control.hasError('invalidPhone')){
+  //       return null;
+  //     } 
+  //     return authService.checkPhoneNumber(control.value)
+  //     .pipe(
+  //       debounceTime(2000),
+  //       distinctUntilChanged(),
+  //       map((result) => JSON.parse(result).hasOwnProperty("") ? {notUniquePhone: true} : null)
+  //     );
+  //   };
+  // }
 }
