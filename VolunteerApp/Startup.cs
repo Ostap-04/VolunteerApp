@@ -19,6 +19,8 @@ namespace VolunteerApp
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddControllersWithViews();
+
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,6 +35,8 @@ namespace VolunteerApp
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSession();
         }
     }
 }
