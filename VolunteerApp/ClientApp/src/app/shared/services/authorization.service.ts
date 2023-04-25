@@ -14,18 +14,17 @@ export class AuthorizationService {
   
   constructor(private http: HttpClient, private router: Router) {}
 
-  // checkNickname(value: string) {
-  //   return this.http.post<{[key: string]: string}>(environment.apiUrl+'/User', {NickName: value});
-  // }
+  //checkNickname(value: string) {
+  //  return this.http.post<boolean>(environment.apiUrl+'/User', {userNickname: value});
+  //}
 
-  // checkPhoneNumber(value: string){
-  //   return this.http.post<{[key: string]: string}>(environment.apiUrl+'/User',{Phone_Number: value});
-  // }
+  //checkPhoneNumber(value: string){
+  //  return this.http.post<boolean>(environment.apiUrl+'/User',{userPhone: value});
+  //}
 
   signUp(userData: SignupData){
-    return this.http.post<{[key: string]: any}>(environment.apiUrl+'/User', userData);    
+    return this.http.post<any>(environment.apiUrl + '/User', userData);
   }
-
   logout() {
     this.user.next(null);
     this.router.navigate(['/home-page'])

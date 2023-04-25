@@ -155,8 +155,7 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.phone,
         this.signupForm.value.email,
         this.signupForm.value.password,
-        this.signupForm.value.role,
-        this.signupForm.value.confirmData
+        this.signupForm.value.role
         );
       //request
       this.isLoading = true;     
@@ -173,14 +172,14 @@ export class AuthorizationPageComponent implements OnInit {
           },
           error: (error) => {
             this.isLoading = false;
-            const errorObj = JSON.parse(error);
-            if(errorObj.hasOwnProperty("nickname") && errorObj.hasOwnProperty("phone_number")){
+            //const errorObj = JSON.parse(error);
+            if (error.hasOwnProperty("nickname") && error.hasOwnProperty("phone_number")) {
               this.wrongUserName = true;
               this.wrongPhone = true;
-            } else if(errorObj.hasOwnProperty("nickname")){
+            } else if (error.hasOwnProperty("nickname")) {
               this.wrongUserName = true;
             }
-            else if(errorObj.hasOwnProperty("phone_number")){
+            else if (error.hasOwnProperty("phone_number")) {
               this.wrongPhone = true;
             }
             console.log(error);

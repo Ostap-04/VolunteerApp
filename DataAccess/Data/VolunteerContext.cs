@@ -1,8 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Volunteer.DataAccess.Annotation;
 using Volunteer.Dto.Models;
 
@@ -46,10 +51,28 @@ namespace DataAccess.Data
             }
         }
 
-        public override int SaveChanges()
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
+            UpdateFields();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
 
-            return base.SaveChanges();
+        private void UpdateFields()
+        {
+            foreach (var entry in ChangeTracker.Entries<IEntityBase>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.UtcNow;
+                        entry.Entity.CreatedBy = "";
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.ModifiedDate = DateTime.UtcNow;
+                        entry.Entity.ModifiedBy = "";
+                        break;
+                }
+            }
         }
 
         public DbSet<User> User { get; set; }
