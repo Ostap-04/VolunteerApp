@@ -1,0 +1,216 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #59725ecb;
+}
+
+.login {
+  background: rgba(66, 66, 66, 1);
+  width: 45%;
+  min-width: 23.4375rem;
+  max-width: 28.125rem;
+  border-radius: 5%;
+  overflow: hidden;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-height: 100%;
+  padding: 1.75em 0.5em 0em 0.5em;
+}
+
+header {
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  padding: 0.7rem;
+}
+
+.form-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-items: center;
+  margin: 1.5em 1.5em;
+}
+
+.error{
+  color:rgb(255, 0, 0);
+  text-align: center;
+  padding: 0.3125rem;
+}
+
+.form-body__fields {
+  padding-bottom: 2.15em;
+}
+
+.form-body__field {
+  width: 100%;
+  background: #fff;
+  margin-bottom: 1em;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0.625rem;
+  transition: all 0.3s ease;
+}
+
+.link a {
+  color: white;
+}
+
+.forget-pass {
+  color: rgb(0, 0, 0);
+  transition: all 0.3s ease;
+}
+
+.button-login {
+  font-weight: 500;
+  color: #fff;
+  background: #4d6f66;
+  border-radius: 0.625rem;
+  padding: 0.5rem 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.divisor {
+  flex: 1 1 auto;
+  width: 100%;
+  margin-top: 30px;
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background-color: #fff;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+
+.or {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  padding: 0 27px;
+  background: #424242;
+}
+
+.form-body__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+  padding-top: 2.625rem;
+}
+
+.verification {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  row-gap: 1.5625rem;
+  margin-bottom: 2.5rem;
+}
+
+.verification-button {
+  border-radius: 6.25rem;
+  background: #202124;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: #e8eaed;
+  /* text-align: center; */
+  font-size: 14px;
+  flex-grow: 1;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  justify-content: center;
+}
+
+.verification-button img {
+  /* margin-right: 7px; */
+  align-items: flex-start;
+  width: 2.25rem;
+  height: 2.25rem;
+  justify-self: flex-end;
+}
+
+.button-facebook {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1px 1px;
+}
+
+.button-facebook span{
+  flex: 1 1 auto;
+}
+
+.text {
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  font-size: 14px;
+}
+
+.text span {
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+footer {
+  background-color: #313131;
+  padding: 0.9375rem 0;
+  text-align: center;
+  margin: 0 -0.5em;
+}
+
+footer span {
+  color: rgba(255, 255, 255, 1);
+}
+
+.singup-link {
+  color: rgb(67, 155, 226);
+  transition: all 0.3s ease;
+}
+
+.singup-link:hover {
+  color: rgb(103, 181, 245);
+  text-decoration: underline;
+}
+
+@media(any-hover: hover) {
+  .form-body__field:hover {
+    background-color: #e8e8e8;
+  }
+
+  .button-login:hover {
+    background-color: #6ea495;
+  }
+
+  .forget-pass:hover {
+    text-decoration: underline;
+    color: rgb(0, 0, 0);
+  }
+
+  .verification-button:hover {
+    background-color: #b0b0b024;
+  }
+  
+  .text span:hover {
+    text-decoration: underline;
+    color: rgb(176, 170, 170);
+  }
+}
