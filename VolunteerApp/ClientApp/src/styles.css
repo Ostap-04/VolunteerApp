@@ -29,6 +29,9 @@ body::-webkit-scrollbar-thumb:hover {
 body.lock {
   overflow: hidden;
 }
+body {
+  font-family: var(--fontFamily);
+}
 
 .wrapper {
   min-height: 100%;

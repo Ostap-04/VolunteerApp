@@ -5,12 +5,8 @@
   <div class="authorization" [ngClass]="isLoading ? 'dusk' : 'authorization'">
     <h2 class="authorization__title">Реєстрація</h2>
     <form (ngSubmit)="onSubmit()" class="form" [formGroup]="signupForm" autocomplete="off">
-      <div class="invalid-data-error" *ngIf="wrongPhone || wrongUserName">
-        <button class="close-error-popup" type="button" (click)="wrongPhone=false; wrongUserName=false">X</button>
-        <p class="invalid-data-error__text" *ngIf="wrongPhone">Такий номер телефону вже існує</p>
-        <p class="invalid-data-error__text" *ngIf="wrongUserName">Таке ім'я користувача вже існує</p>
-      </div>
-      <div class="form-group">
+      <div class="form-group"
+        *ngIf="!confirmStep">
         <mat-form-field class="form-group__row" appearance="fill">
           <mat-label for="nickname" class="form-group__label">Ім'я користувача</mat-label>
           <input matInput type="text" id="nickname" name="nickname" formControlName="nickname"> 
@@ -130,43 +126,24 @@
             </label>
           </div>
         </div>
-        <!-- <button 
+        <button 
           mat-raised-button 
           class="next-step-button" 
           type="button" 
           (click)="handleUserData()">
           Далі
-        </button> -->
-        <button 
-        mat-raised-button 
-        class="form-group__btn" 
-        type="submit" 
-        (click)="onSubmit()"
-        
-        >Зареєструватись</button>  
+        </button>
       </div>
-      <!-- [disabled]="!signupForm.valid" -->
-      <!-- <div class="form-group form-group_confirm"
+      <div class="form-group form-group_confirm"
         *ngIf="confirmStep">
         <p class="confirm-title form-group__row">
           Підтвердьте те, що ви військовий,<br>
           завантаживши документ
         </p>
-        <div class="input-box form-group__row">
-          <label class="input-box__label">{{ uploadFileLabel }}</label>
-          <div class="input-box__field">
-            <input type="file" accept="image/*" class="input-file" id="confirmationFile"
-            (change)="handleFileInput($any($event.target).files)"
-            name="confirmData" formControlName='confirmData'>
-            <label mat-raised-button for="confirmationFile" class="browse-btn btn" type="button">Обрати</label>
-          </div>
-          <button class="upload-btn btn" type="button" (click)="upload()">Заванажити</button>
-        </div>
-        <div class="form-group__row" *ngIf="working">
-          <div class="progress-bar" [ngStyle]="{ 'width': uploadProgress + '%' }">{{ uploadProgress }}%</div>
-        </div>
+        <app-file-upload formControlName="confirmationFile"></app-file-upload>
+        <div *ngIf="signupForm.get('confirmationFile')?.hasError('requiredFileType')" style="color:rgb(233, 26, 26)">Приймаються файли з розширеннями png, jpg, pdf</div>
         <div class="form-agreement form-group__row">
-          <mat-checkbox checked="isAgreed" color="primary" (click)="isAgreed = !isAgreed">Продовжуючи, ви приймаєте наші </mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
+          <mat-checkbox checked="isAgreed" color="primary" (click)="isAgreed = !isAgreed">Продовжуючи, ви приймаєте наші</mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
         </div>
         <div class="form-group__row form-group__buttons">
           <button 
@@ -184,9 +161,9 @@
         [disabled]="!signupForm.valid && !isAgreed"
         >Зареєструватись</button>  
         </div>      
-      </div> -->
+      </div>
     </form>
-    <div class="have-account">
+    <div class="have-account" *ngIf="!confirmStep">
       Уже маєте акаунт? <button routerLink="/"> Увійти</button>
     </div>
   </div>

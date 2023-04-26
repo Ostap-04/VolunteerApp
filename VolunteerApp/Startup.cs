@@ -33,7 +33,6 @@ namespace VolunteerApp
                     });
             });
 
-            //services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddAuthentication()
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(BasicAuthenticationDefaults.AuthenticationScheme, null);
@@ -55,7 +54,7 @@ namespace VolunteerApp
             app.UseRouting();
 
             app.UseHttpsRedirection();
-
+          
             app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>

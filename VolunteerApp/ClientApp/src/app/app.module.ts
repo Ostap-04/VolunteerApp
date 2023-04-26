@@ -21,6 +21,13 @@ import { AccountPageComponent } from './account-page/account-page.component';
 import { MaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { LoginPageComponent } from './entry-pages/login-page/login-page.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -36,18 +43,43 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     RequestComponent,
     AccountPageComponent,
     AuthorizationPageComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    FileUploadComponent,
+    LoginPageComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), 
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     MaterialModule,
     AppRoutingModule,
-    TextMaskModule
+    TextMaskModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '752308243547-bcetvisp6lrpig72um5rmfph3uejn4cr.apps.googleusercontent.com'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1331536260821781')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

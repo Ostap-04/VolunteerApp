@@ -1,7 +1,7 @@
 
-export class SignupData{
+export class SignupData {
   constructor(
-    public NickName:string,
+    public NickName: string,
     public Surname: string,
     public Name: string,
     public MidName: string,
