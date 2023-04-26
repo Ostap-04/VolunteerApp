@@ -80,15 +80,6 @@ namespace VolunteerApp.Controllers
             return _context.User.Any(e => e.Id == id);
         }
 
-        private bool PhoneNumberExists(string number)
-        {
-            return _context.User.Any(p => p.Phone_Number == number);
-        }
-
-        private bool NicknameExists(string nickName)
-        {
-            return _context.User.Any(n => n.NickName == nickName);
-        }
         private IEnumerable<string> GetModelValidationErrors()
         {
             return ModelState.Values

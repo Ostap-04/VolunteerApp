@@ -8,7 +8,6 @@ export class SignupData{
     public Phone_Number: string,
     public Email: string,
     public Password: string,
-    public Role: string)
-  {
-  }
+    public Role: string,
+    public Verification: File) { }
 }
