@@ -10,6 +10,12 @@ namespace Volunteer.DataAccess.Repository
     public class UserRepository : IUserRepository
     {
         private readonly VolunteerContext _context;
+
+        public UserRepository(VolunteerContext context)
+        {
+            _context = context;
+        }
+
         public async Task<bool> Authenticate(string email, string password)
         {
             if (await Task.FromResult(_context.User.SingleOrDefault(x => x.Email == email && x.Password == password)) != null)

@@ -35,15 +35,6 @@ namespace VolunteerApp.Controllers
         [HttpPost]
         public async Task<ActionResult> AddUser(User user)
         {
-            if (NicknameExists(user.NickName) && PhoneNumberExists(user.Phone_Number)) 
-                return Json(new { nickname = user.NickName, phone_number = user.Phone_Number });
-
-            else if (NicknameExists(user.NickName)) 
-                return Json(new { nickname = user.NickName });
-
-            else if (PhoneNumberExists(user.Phone_Number)) 
-                return Json(new { phone_number = user.Phone_Number });
-
             if (ModelState.IsValid)
             {
                 await _context.User.AddAsync(user);

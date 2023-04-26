@@ -14,32 +14,61 @@ namespace Volunteer.DataAccess.Handler
 {
     public class BasicAuthenticationHandler : Microsoft.AspNetCore.Authentication.AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly IUserRepository _userRepository;
-        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IUserRepository userRepository) :
-           base(options, logger, encoder, clock)
+        public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
         {
-            _userRepository = userRepository;
         }
 
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var authorizationHeader = Request.Headers["Authorization"].ToString();
-            if (authorizationHeader != null && authorizationHeader.StartsWith("basic", StringComparison.OrdinalIgnoreCase))
+            if (!Request.Headers.ContainsKey("Authorization"))
             {
-                var token = authorizationHeader.Substring("Basic ".Length).Trim();
-                var credentialsAsEncodedString = Encoding.UTF8.GetString(Convert.FromBase64String(token));
-                var credentials = credentialsAsEncodedString.Split(':');
-                if (await _userRepository.Authenticate(credentials[0], credentials[1]))
-                {
-                    var claims = new[] { new Claim("name", credentials[0]), new Claim(ClaimTypes.Role, "Admin") };
-                    var identity = new ClaimsIdentity(claims, "Basic");
-                    var claimsPrincipal = new ClaimsPrincipal(identity);
-                    return await Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name)));
-                }
+                return await Task.FromResult(AuthenticateResult.Fail("Missing Authorization header"));
             }
-            Response.StatusCode = 401;
-            Response.Headers.Add("WWW-Authenticate", "Basic realm=\"joydipkanjilal.com\"");
-            return await Task.FromResult(AuthenticateResult.Fail("Invalid Authorization Header"));
+
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+
+            // If authorization header doesn't start with basic, throw no result.
+            if (!authorizationHeader.StartsWith("Basic ", StringComparison.OrdinalIgnoreCase))
+            {
+                return await Task.FromResult(AuthenticateResult.Fail("Authorization header does not start with 'Basic'"));
+            }
+
+            // Decrypt the authorization header and split out the client id/secret which is separated by the first ':'
+            var authBase64Decoded = Encoding.UTF8.GetString(Convert.FromBase64String(authorizationHeader.Replace("Basic ", "", StringComparison.OrdinalIgnoreCase)));
+            var authSplit = authBase64Decoded.Split(new[] { ':' }, 2);
+
+            // No username and password, so throw no result.
+            if (authSplit.Length != 2)
+            {
+                return await Task.FromResult(AuthenticateResult.Fail("Invalid Authorization header format"));
+            }
+
+            // Store the client ID and secret
+            var clientId = authSplit[0];
+            var clientSecret = authSplit[1];
+
+            //Client ID and secret are incorrect
+            //if (clientId != "roundthecode" || clientSecret != "roundthecode")
+            //{
+            //    return await Task.FromResult(AuthenticateResult.Fail(string.Format("The secret is incorrect for the client '{0}'", clientId)));
+            //}
+
+            // Authenicate the client using basic authentication
+            var client = new BasicAuthenticationClient
+            {
+                AuthenticationType = BasicAuthenticationDefaults.AuthenticationScheme,
+                IsAuthenticated = true,
+                Name = clientId
+            };
+
+            // Set the client ID as the name claim type.
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity((System.Security.Principal.IIdentity)client, new[]
+            {
+                new Claim(ClaimTypes.Name, clientId)
+            }));
+
+            // Return a success result.
+            return await Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name)));
         }
     }
 }

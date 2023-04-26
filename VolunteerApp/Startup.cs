@@ -33,10 +33,10 @@ namespace VolunteerApp
                     });
             });
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddAuthentication("BasicAuthentication").
-                AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddAuthentication()
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(BasicAuthenticationDefaults.AuthenticationScheme, null);
 
             services.AddControllersWithViews();
         }
@@ -55,6 +55,8 @@ namespace VolunteerApp
             app.UseRouting();
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
