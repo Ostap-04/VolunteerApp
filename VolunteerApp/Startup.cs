@@ -1,5 +1,9 @@
 ﻿using DataAccess.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Volunteer.DataAccess;
+using Volunteer.DataAccess.Handler;
+using Volunteer.DataAccess.Repository;
 
 namespace VolunteerApp
 {
@@ -28,6 +32,11 @@ namespace VolunteerApp
                                             .AllowAnyMethod();
                     });
             });
+
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddAuthentication("BasicAuthentication").
+                AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddControllersWithViews();
         }
