@@ -2,7 +2,7 @@
 {
     public enum Role
     {
-        Military = 0,
-        Volunteer = 1
+        Військовий = 0,
+        Волонтер = 1
     }
 }

@@ -26,10 +26,11 @@ export class AuthorizationService {
   signUp(userData: SignupData){
     return this.http.post<any>(environment.apiUrl+'/User', userData);
   }
-
+  
   login(userData: Login) {
     return this.http.post<Login>(environment.apiUrl + '/User', userData);
   }
+
   logout() {
     this.user.next(null);
     this.router.navigate(['/home-page'])
