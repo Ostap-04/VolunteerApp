@@ -107,8 +107,8 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.phone,
         this.signupForm.value.email,
         this.signupForm.value.password,
-        this.signupForm.value.role,
-        this.signupForm.value.confirmData
+        this.signupForm.value.role//,
+        //this.signupForm.value.confirmData
       );
       this.isLoading = true;      
       this.authService.signUp(signUpData).subscribe(

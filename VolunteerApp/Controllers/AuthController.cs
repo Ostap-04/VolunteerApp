@@ -8,7 +8,7 @@ namespace VolunteerApp.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     { 
-        [HttpPost("{token}"), BasicAuthorization]
+        [HttpPost("{token}")]
         public IActionResult Index()
         {
             return Ok();

@@ -34,7 +34,6 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult> AddUser(User user)
         {
             if (ModelState.IsValid)
@@ -51,7 +50,6 @@ namespace VolunteerApp.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<ActionResult<User>> UpdateUser(User user)
         {
             if (user.Id == default || !UserExists(user.Id)) NotFound();
