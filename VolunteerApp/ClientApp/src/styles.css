@@ -32,6 +32,7 @@ body.lock {
 body {
   font-family: var(--fontFamily);
 }
+
 .wrapper {
   min-height: 100%;
   display: flex;

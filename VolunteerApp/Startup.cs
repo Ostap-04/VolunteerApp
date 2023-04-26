@@ -18,6 +18,17 @@ namespace VolunteerApp
 
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44450", "http://localhost:7263")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -27,7 +38,17 @@ namespace VolunteerApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseRouting();
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
