@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { SignupData } from 'src/app/shared/models/classes/signup';
@@ -15,15 +15,15 @@ export class AuthorizationService {
   constructor(private http: HttpClient, private router: Router) {}
 
   checkNickname(value: string) {
-    return this.http.post<boolean>(environment.apiUrl+'/User', {userNickname: value});
+    return this.http.post<boolean>(environment.apiUrl+'/Nickname/'+value, value);
   }
 
   checkPhoneNumber(value: string){
-    return this.http.post<boolean>(environment.apiUrl+'/User',{userPhone: value});
+    return this.http.post<boolean>(environment.apiUrl+'/PhoneNumber/'+value, value);
   }
 
   signUp(userData: SignupData){
-    return this.http.post<SignupData>(environment.apiUrl+'/User', userData);    
+    return this.http.post<any>(environment.apiUrl+'/User', userData);    
   }
   logout() {
     this.user.next(null);

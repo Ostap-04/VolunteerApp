@@ -24,12 +24,6 @@ export class AuthorizationPageComponent implements OnInit {
   isLoading: boolean = false;
   isAgreed: boolean = true;
 
-  working: boolean = false;
-  uploadFile: File | null;
-  uploadFileLabel: string | undefined = "Оберіть зображення щоб завнтажити"; 
-  uploadProgress: number;
-  uploadUrl: string;
-
   phoneInputMask: any[] = ['+','(', '3','8','0', ')', ' ', /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
   roles: string[] = ['Військовий', 'Волонтер'];
 
@@ -73,7 +67,7 @@ export class AuthorizationPageComponent implements OnInit {
       ),
       'confirmPassword': new FormControl(null, [Validators.required, Validators.minLength(8)]),
       'role': new FormControl("Військовий", [Validators.required]),
-      'confirmData': new FormControl(null, Validators.required)
+      'confirmationFile': new FormControl(null, [Validators.required, UserValidators.requiredFileType(["png", "jpg", "pdf"])])  
     },
     {
       validators: UserValidators.matchValidator
@@ -91,7 +85,6 @@ export class AuthorizationPageComponent implements OnInit {
       this.confirmStep = true;   
     }else{
       this.showPasswordTips = true;
-      console.log('errors');
     }
   }
   
@@ -99,52 +92,13 @@ export class AuthorizationPageComponent implements OnInit {
     return this.signupForm.get('password').errors ? Object.keys(this.signupForm.get('password').errors) : [];
   }
 
-  handleFileInput(files: FileList) {
-    if(files.length) {
-      this.uploadFile = files.item(0);
-      this.uploadFileLabel = this.uploadFile?.name;
-    }
-  }
-
-  upload() {
-    if (!this.uploadFile) {
-      alert('Choose a file to upload first');
-      return;
-    }
-    
-    const formData = new FormData();
-    formData.append(this.uploadFile.name, this.uploadFile);
-    const url = `${environment.apiUrl}/upload`;
-    const request = new HttpRequest('POST', url, formData, {
-      reportProgress: true
-    });
-
-    this.http.request(request).subscribe(
-      { 
-        next: (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-          } else if (event.type === HttpEventType.Response) {
-            this.uploadUrl = event.body.url;
-          }
-        }, 
-        error: (error: any) => {
-          console.error(error);
-        },
-        complete: () => {
-          this.working = false;
-        }
-      }
-    );
-  }
-
-  goToTermsOfUse(){
-    console.log('p');
-  }
+  goToTermsOfUse(){}
 
   onSubmit() {
-    console.log(this.signupForm);    
+    console.log(this.signupForm);
+    
     if(this.signupForm.valid){
+      console.log('valid');
       const signUpData = new SignupData(
         this.signupForm.value.nickname,
         this.signupForm.value.surname,
@@ -156,12 +110,10 @@ export class AuthorizationPageComponent implements OnInit {
         this.signupForm.value.role,
         this.signupForm.value.confirmData
       );
-      console.log(signUpData);
       this.isLoading = true;      
       this.authService.signUp(signUpData).subscribe(
         {
           next: (result) => {
-            console.log(result);
             this.isLoading = false;
             this.authService.user.next(signUpData);
             this.router.navigate(['/account-page']);

@@ -21,6 +21,7 @@ import { AccountPageComponent } from './account-page/account-page.component';
 import { MaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     RequestComponent,
     AccountPageComponent,
     AuthorizationPageComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), 
