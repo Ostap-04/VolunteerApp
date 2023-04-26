@@ -1,3 +1,4 @@
+
 export class SignupData {
   constructor(
     public NickName: string,

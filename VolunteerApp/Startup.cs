@@ -1,5 +1,9 @@
 ﻿using DataAccess.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Volunteer.DataAccess;
+using Volunteer.DataAccess.Handler;
+using Volunteer.DataAccess.Repository;
 
 namespace VolunteerApp
 {
@@ -29,6 +33,10 @@ namespace VolunteerApp
                     });
             });
 
+
+            services.AddAuthentication()
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(BasicAuthenticationDefaults.AuthenticationScheme, null);
+
             services.AddControllersWithViews();
         }
 
@@ -38,7 +46,6 @@ namespace VolunteerApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -46,9 +53,9 @@ namespace VolunteerApp
 
             app.UseRouting();
 
+            app.UseHttpsRedirection();
+          
             app.UseAuthentication();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

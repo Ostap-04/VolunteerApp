@@ -37,12 +37,6 @@ namespace VolunteerApp.Controllers
         [Authorize]
         public async Task<ActionResult> AddUser(User user)
         {
-            if (NicknameExists(user.NickName) && PhoneNumberExists(user.Phone_Number)) return Json(new { nickname = user.NickName, phone_number = user.Phone_Number });
-
-            else if (NicknameExists(user.NickName)) return Json(new { nickname = user.NickName });
-
-            else if (PhoneNumberExists(user.Phone_Number)) return Json(new { phone_number = user.Phone_Number });
-
             if (ModelState.IsValid)
             {
                 await _context.User.AddAsync(user);
@@ -90,15 +84,6 @@ namespace VolunteerApp.Controllers
             return _context.User.Any(e => e.Id == id);
         }
 
-        private bool PhoneNumberExists(string number)
-        {
-            return _context.User.Any(p => p.Phone_Number == number);
-        }
-
-        private bool NicknameExists(string nickName)
-        {
-            return _context.User.Any(n => n.NickName == nickName);
-        }
         private IEnumerable<string> GetModelValidationErrors()
         {
             return ModelState.Values

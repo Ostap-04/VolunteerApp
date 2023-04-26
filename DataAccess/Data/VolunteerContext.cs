@@ -1,11 +1,14 @@
 ﻿using FirebaseAdmin.Auth;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Volunteer.DataAccess.Annotation;
 using Volunteer.Dto.Models;
 
@@ -49,32 +52,26 @@ namespace DataAccess.Data
             }
         }
 
-        public override int SaveChanges()
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             UpdateFields();
-            return base.SaveChanges();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         private void UpdateFields()
         {
-            var user = new User();
-            if (user != null)
+            foreach (var entry in ChangeTracker.Entries<IEntityBase>())
             {
-                var modifiedEntities = ChangeTracker.Entries()
-                            .Where(p => p.State == EntityState.Modified || p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified || p.State == EntityState.Detached).ToList();
-                foreach (var entry in modifiedEntities)
+                switch (entry.State)
                 {
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            user.CreatedDate = DateTime.UtcNow;
-                            user.CreatedBy = user.Id;
-                            break;
-                        case EntityState.Modified:
-                            user.ModifiedDate = DateTime.UtcNow;
-                            user.ModifiedBy = user.Id;
-                            break;
-                    }
+                    case EntityState.Added:
+                        entry.Entity.CreatedDate = DateTime.UtcNow;
+                        entry.Entity.CreatedBy = "";
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.ModifiedDate = DateTime.UtcNow;
+                        entry.Entity.ModifiedBy = "";
+                        break;
                 }
             }
         }
