@@ -28,7 +28,7 @@ export class AuthorizationService {
   }
   
   login(userData: Login) {
-    return this.http.post<Login>(environment.apiUrl + '/User', userData);
+    return this.http.post<Login>(environment.apiUrl + '/Auth/token', userData);
   }
 
   logout() {

@@ -1,4 +1,5 @@
 ﻿using DataAccess.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Volunteer.Dto.Models;
@@ -75,6 +76,7 @@ namespace VolunteerApp.Controllers
 
             return Ok();
         }
+
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);

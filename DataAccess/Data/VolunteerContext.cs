@@ -81,5 +81,4 @@ namespace DataAccess.Data
         public DbSet<Request> Request { get; set; }
         
     }
-
 }

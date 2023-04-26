@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Volunteer.DataAccess;
 using Volunteer.DataAccess.Handler;
-using Volunteer.DataAccess.Repository;
 
 namespace VolunteerApp
 {
