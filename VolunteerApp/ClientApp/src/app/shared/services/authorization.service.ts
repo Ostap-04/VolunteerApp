@@ -23,6 +23,10 @@ export class AuthorizationService {
     return this.http.post<boolean>(environment.apiUrl+'/PhoneNumber/'+value, value);
   }
 
+  signUp(userData: SignupData){
+    return this.http.post<any>(environment.apiUrl+'/User', userData);
+  }
+  
   login(userData: Login) {
     return this.http.post<Login>(environment.apiUrl + '/User', userData);
   }
