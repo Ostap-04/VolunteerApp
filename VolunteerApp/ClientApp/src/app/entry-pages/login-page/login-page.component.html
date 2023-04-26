@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="login">
+    <div class="form-content">
+      <header>Увійти</header>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-body">
+        <div class="form-body__top">
+          <div class="error" *ngIf="isInvalid"> Неправильно введено дані </div>
+          <div class="form-body__fields">
+            <mat-form-field class="form-body__field">
+              <mat-label>Електронна пошта чи телефон</mat-label>
+              <input (click)="isInvalid ? isInvalid = false : null" formControlName="phoneOrEmail" matInput type="tel"
+                name="mail_phone">
+              <button *ngIf="value" matSuffix mat-icon-button (click)="value = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="form-body__field">
+              <mat-label>Пароль</mat-label>
+              <input (click)="isInvalid ? isInvalid = false : null" formControlName="password" matInput
+                [type]="hide ? 'password' : 'text'">
+              <mat-hint class="hint-forget-pass">
+                <button class="forget-pass">
+                  Забули
+                  пароль?
+                </button>
+              </mat-hint>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <button class="button-login" (click)="onSubmit()" [disabled]="!loginForm.valid">Увійти</button>
+          <div class="divisor"><span class="line"></span><span class="or">або</span></div>
+        </div>
+        <div class="form-body__bottom">
+          <div class="verification">
+            <asl-google-signin-button width="260" type='standard' size='large' theme='filled_black' shape="circle"
+              class="button-google"></asl-google-signin-button>
+            <button (click)="signInWithFB()" class="verification-button button-facebook">
+              <img src="../../../assets/icons/facebook.svg" /><span>Вхід через
+                Facebook</span>
+            </button>
+          </div>
+          <div class="text">Продовжуючи, ви приймаєте наші <br><span>Умови використання</span></div>
+        </div>
+      </form>
+      <footer>
+        <span>Ще не маєте акаунта? <button routerLink="/authorization-page"
+            class="singup-link">Зареєструватися</button></span>
+      </footer>
+    </div>
+  </div>
+</div>
