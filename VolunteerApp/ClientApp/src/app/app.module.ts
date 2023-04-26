@@ -21,12 +21,14 @@ import { AccountPageComponent } from './account-page/account-page.component';
 import { MaterialModule } from './modules/material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 import { LoginPageComponent } from './entry-pages/login-page/login-page.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +44,7 @@ import {
     AccountPageComponent,
     AuthorizationPageComponent,
     LoadingSpinnerComponent,
+    FileUploadComponent,
     LoginPageComponent
   ],
   imports: [
