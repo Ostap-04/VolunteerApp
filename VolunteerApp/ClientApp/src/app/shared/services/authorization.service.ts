@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 export class AuthorizationService {
   user = new BehaviorSubject<SignupData>(null);
   loginUser = new BehaviorSubject<Login>(null);
+  
   constructor(private http: HttpClient, private router: Router) { }
 
   checkNickname(value: string) {

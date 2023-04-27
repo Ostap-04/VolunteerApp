@@ -14,18 +14,18 @@ export class AccountPageComponent implements OnInit, OnDestroy {
   userType: string = '';
   isVerified: boolean = true;
 
-  private userSub: Subscription;
+  private userSignupSub: Subscription;
 
   constructor(private authService: AuthorizationService) { }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe(user => {
+    this.userSignupSub = this.authService.user.subscribe(user => {
       this.userName = user.NickName;
       this.userType = user.Role;
     });
   }
 
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
+    this.userSignupSub.unsubscribe();
   }
 }

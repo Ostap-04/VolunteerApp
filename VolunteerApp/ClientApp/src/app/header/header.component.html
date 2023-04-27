@@ -8,7 +8,7 @@
         <ul class="menu__list">
           <li class="menu__item"><a routerLink="/" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact: true}" class="menu__link">Головна</a></li>
           <li class="menu__item"><a routerLink="/requests-page" routerLinkActive="link-active" class="menu__link">Запити</a></li>
-          <li class="menu__item"><a class="menu__link">Профіль</a></li>
+          <li class="menu__item"><a routerLink="/account-page" class="menu__link">Профіль</a></li>
         </ul>
         <div *ngIf="!authenticatedUserMode" class="menu__header-actions">
           <app-login-button></app-login-button>
