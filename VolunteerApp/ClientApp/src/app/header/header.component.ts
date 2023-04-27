@@ -11,15 +11,15 @@ import { AuthorizationService } from '../shared/services/authorization.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isMenuOpen: boolean = false;
-  userMode: boolean = false;
-  private userSub: Subscription
+  authenticatedUserMode: boolean = false;
+  private userSub: Subscription;
 
   constructor(private authService: AuthorizationService) {}
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe(user => {
-      this.userMode = !!user;
-    });    
+      this.authenticatedUserMode = !!user;
+    });
   }
 
   ngOnDestroy(): void {

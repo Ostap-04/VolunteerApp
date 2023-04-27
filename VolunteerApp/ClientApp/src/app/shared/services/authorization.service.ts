@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { SignupData } from 'src/app/shared/models/classes/signup';
@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  user = new Subject<SignupData>();
-  loginUser = new Subject<Login>();
+  user = new BehaviorSubject<SignupData>(null);
+  loginUser = new BehaviorSubject<Login>(null);
   constructor(private http: HttpClient, private router: Router) { }
 
   checkNickname(value: string) {
@@ -33,6 +33,6 @@ export class AuthorizationService {
 
   logout() {
     this.user.next(null);
-    this.router.navigate(['/home-page'])
+    this.router.navigate(['/'])
   }
 }

@@ -8,8 +8,7 @@ import { Observable } from "rxjs";
 import { 
   map, 
   debounceTime, 
-  distinctUntilChanged, 
-  switchMap } from "rxjs/operators";
+  distinctUntilChanged } from "rxjs/operators";
 
 import { AuthorizationService } from "../shared/services/authorization.service";
 
@@ -67,7 +66,7 @@ export class UserValidators {
       .pipe(
         debounceTime(2000),
         distinctUntilChanged(),
-        map((result: boolean) => result ? {notUniquePhone: true} : null)
+        map((result: boolean) => result ? {notUniqueNickName: true} : null)
       );
     };
   }

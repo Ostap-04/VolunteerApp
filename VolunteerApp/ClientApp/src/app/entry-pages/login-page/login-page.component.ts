@@ -43,18 +43,18 @@ export class LoginPageComponent implements OnInit {
         this.loginForm.value.phoneOrEmail,
         this.loginForm.value.password,
       );
-      //this.isLoading = true;      
+      // this.isLoading = true;      
       this.authService.login(loginData).subscribe(
         {
           next: (result) => {
             console.log(result);
-            //this.isLoading = false;
+            // this.isLoading = false;
             this.isInvalid = false;
             this.authService.loginUser.next(loginData);
             this.router.navigate(['/account-page']);
           },
           error: (error) => {
-            //this.isLoading = false;
+            // this.isLoading = false;
             console.log(error);
             this.isInvalid = true;
           },

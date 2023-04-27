@@ -10,8 +10,8 @@
         <mat-form-field class="form-group__row" appearance="fill">
           <mat-label for="nickname" class="form-group__label">Ім'я користувача</mat-label>
           <input matInput type="text" id="nickname" name="nickname" formControlName="nickname"> 
-          <mat-error *ngIf="signupForm.get('nickname')?.hasError('required')">Ім'я користувача <strong>обов'язкове</strong></mat-error>
-          <mat-error *ngIf="signupForm.get('nickname')?.hasError('notUniqueNickName')">Ім'я користувача зайняте</mat-error>
+          <mat-error *ngIf="signupForm.get('nickname').hasError('required')">Ім'я користувача <strong>обов'язкове</strong></mat-error>
+          <mat-error *ngIf="signupForm.get('nickname').hasError('notUniqueNickName')">Ім'я користувача зайняте</mat-error>
         </mat-form-field>
         <mat-form-field class="form-group__row" appearance="fill">
           <mat-label for="surname" class="form-group__label">Прізвище</mat-label>
@@ -137,10 +137,9 @@
       <div class="form-group form-group_confirm"
         *ngIf="confirmStep">
         <p class="confirm-title form-group__row">
-          Підтвердьте те, що ви військовий,<br>
-          завантаживши документ
+          Підтвердьте те, що ви військовий завантаживши документ
         </p>
-        <app-file-upload formControlName="confirmationFile"></app-file-upload>
+        <app-file-upload formControlName="confirmationFile" class="form-group__row"></app-file-upload>
         <div *ngIf="signupForm.get('confirmationFile')?.hasError('requiredFileType')" style="color:rgb(233, 26, 26)">Приймаються файли з розширеннями png, jpg, pdf</div>
         <div class="form-agreement form-group__row">
           <mat-checkbox checked="isAgreed" color="primary" (click)="isAgreed = !isAgreed">Продовжуючи, ви приймаєте наші</mat-checkbox><span (click)="goToTermsOfUse()"> Умови використання</span>
