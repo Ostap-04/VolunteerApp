@@ -17,15 +17,15 @@ export class AuthorizationService {
   constructor(private http: HttpClient, private router: Router) { }
 
   checkNickname(value: string) {
-    return this.http.post<boolean>(environment.apiUrl+'/Nickname/'+value, value);
+    return this.http.post<boolean>(environment.apiUrl + '/Nickname/' + value, value);
   }
 
   checkPhoneNumber(value: string){
-    return this.http.post<boolean>(environment.apiUrl+'/PhoneNumber/'+value, value);
+    return this.http.post<boolean>(environment.apiUrl + '/PhoneNumber/' + value, value);
   }
 
   signUp(userData: SignupData){
-    return this.http.post<any>(environment.apiUrl+'/User', userData);
+    return this.http.post<any>(environment.apiUrl + '/User', userData);
   }
   
   login(userData: Login) {
@@ -34,6 +34,7 @@ export class AuthorizationService {
 
   logout() {
     this.user.next(null);
+    this.loginUser.next(null);
     this.router.navigate(['/'])
   }
 }

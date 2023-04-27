@@ -14,7 +14,7 @@ import { FacebookLoginProvider } from "@abacritt/angularx-social-login";
 
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({
-    'phoneOrEmail': new FormControl(null, Validators.required),
+    'nickname': new FormControl(null, Validators.required),
     'password': new FormControl(null, Validators.required)
   })
 
@@ -40,21 +40,17 @@ export class LoginPageComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const loginData = new Login(
-        this.loginForm.value.phoneOrEmail,
+        this.loginForm.value.nickname,
         this.loginForm.value.password,
-      );
-      // this.isLoading = true;      
+      );   
       this.authService.login(loginData).subscribe(
         {
           next: (result) => {
-            console.log(result);
-            // this.isLoading = false;
             this.isInvalid = false;
             this.authService.loginUser.next(loginData);
             this.router.navigate(['/account-page']);
           },
           error: (error) => {
-            // this.isLoading = false;
             console.log(error);
             this.isInvalid = true;
           },

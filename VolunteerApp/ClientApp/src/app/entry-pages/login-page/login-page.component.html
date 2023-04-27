@@ -4,11 +4,11 @@
       <header>Увійти</header>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-body">
         <div class="form-body__top">
-          <div class="error" *ngIf="isInvalid"> Неправильно введено дані </div>
+          <div class="error" *ngIf="isInvalid"> Невірні дані </div>
           <div class="form-body__fields">
             <mat-form-field class="form-body__field">
-              <mat-label>Електронна пошта чи телефон</mat-label>
-              <input (click)="isInvalid ? isInvalid = false : null" formControlName="phoneOrEmail" matInput type="tel"
+              <mat-label>Ім'я користувача</mat-label>
+              <input (click)="isInvalid ? isInvalid = false : null" formControlName="nickname" matInput
                 name="mail_phone">
               <button *ngIf="value" matSuffix mat-icon-button (click)="value = ''">
                 <mat-icon>close</mat-icon>
