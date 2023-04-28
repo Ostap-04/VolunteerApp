@@ -7,9 +7,9 @@
                     <div class="body-user__photo">
                     </div>
                     <div class="body-user__content">
-                        <div class="user-name">Username</div>
-                        <div class="user-type">user type</div>
-                        <div class="user-verified"><mat-icon>verified_user</mat-icon></div>
+                        <div class="user-name">{{userName}}</div>
+                        <div class="user-type">{{userType}}</div>
+                        <div class="user-verified" *ngIf="isVerified"><mat-icon>verified_user</mat-icon></div>
                     </div>
                 </div>
                 <div class="body-user__actions">

@@ -138,6 +138,16 @@
 .form-group__btn{
   flex: 1 1 200px;
 }
+.form-group_confirm {
+  padding-top: 20px;
+  row-gap: 20px;
+}
+.confirm-title {
+  font-size: 1.75rem;
+}
+.form-group__buttons {
+  margin-top: 30px;
+}
 @media (any-hover: hover){
   .have-account button:hover{
     text-decoration: underline;
@@ -156,7 +166,6 @@
     font-size: 1rem;
   }
   .btn {
-    /* padding: 6px; */
-    font-size: 14px;
+      font-size: 14px;
   }
 }

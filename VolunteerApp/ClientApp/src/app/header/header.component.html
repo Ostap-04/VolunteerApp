@@ -8,20 +8,20 @@
         <ul class="menu__list">
           <li class="menu__item"><a routerLink="/" routerLinkActive="link-active" [routerLinkActiveOptions]="{exact: true}" class="menu__link">Головна</a></li>
           <li class="menu__item"><a routerLink="/requests-page" routerLinkActive="link-active" class="menu__link">Запити</a></li>
-          <li class="menu__item"><a class="menu__link">Профіль</a></li>
+          <li class="menu__item"><a [routerLink]="(authenticatedUserMode || logedInUserMode) ? ['/account-page'] : ['/login-page']" class="menu__link">Профіль</a></li>
         </ul>
-        <div *ngIf="!userMode" class="menu__header-actions">
+        <div *ngIf="!authenticatedUserMode && !logedInUserMode" class="menu__header-actions">
           <app-login-button></app-login-button>
           <app-signup-button ></app-signup-button>
         </div>
-        <a href="" *ngIf="userMode" class="menu__logout" (click)="onLogout()">Вийти</a>
+        <a *ngIf="authenticatedUserMode || logedInUserMode" class="menu__logout" (click)="onLogout()" style="cursor:pointer;">Вийти</a>
       </nav>
     </div>
-    <div *ngIf="!userMode" class="header__actions">
+    <div *ngIf="!authenticatedUserMode && !logedInUserMode" class="header__actions">
       <app-login-button></app-login-button>
       <app-signup-button></app-signup-button>
     </div>
-    <a href="" *ngIf="userMode" class="logout" (click)="onLogout()">Вийти</a>
+    <a *ngIf="authenticatedUserMode || logedInUserMode" class="logout" (click)="onLogout()" style="cursor:pointer;">Вийти</a>
     <button
       type="button"
       class="menu__icon icon-menu"

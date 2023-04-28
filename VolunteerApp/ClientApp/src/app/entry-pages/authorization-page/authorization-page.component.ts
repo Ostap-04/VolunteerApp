@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { environment } from 'src/environments/environment';
 import { UserValidators } from '../user-validators';
 import { AuthorizationService } from '../../shared/services/authorization.service';
 import { SignupData } from 'src/app/shared/models/classes/signup';
-import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-authorization-page',
@@ -14,9 +12,10 @@ import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
   styleUrls: ['./authorization-page.component.css']
 })
 export class AuthorizationPageComponent implements OnInit {
-  constructor(private http: HttpClient, 
+  constructor( 
     private authService: AuthorizationService,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
   confirmStep: boolean = false;
   showPassword: boolean = false;
@@ -95,10 +94,7 @@ export class AuthorizationPageComponent implements OnInit {
   goToTermsOfUse(){}
 
   onSubmit() {
-    console.log(this.signupForm);
-    
     if(this.signupForm.valid){
-      console.log('valid');
       const signUpData = new SignupData(
         this.signupForm.value.nickname,
         this.signupForm.value.surname,
@@ -120,7 +116,6 @@ export class AuthorizationPageComponent implements OnInit {
           },
           error: (error) => {
             this.isLoading = false;
-            console.log(error);
           },
         }
       );
