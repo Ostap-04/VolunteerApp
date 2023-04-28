@@ -16,7 +16,7 @@ export class AccountPageComponent implements OnInit, OnDestroy {
   isExpanded: boolean = false;
   userName: string = '';
   userType: string = '';
-  isVerified: boolean = true;
+  isVerified: boolean = false;
 
   private userSignupSub: Subscription;
   private userLoginSub: Subscription;
